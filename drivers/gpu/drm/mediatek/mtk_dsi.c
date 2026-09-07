@@ -194,6 +194,7 @@ struct mtk_dsi_driver_data {
 	bool has_size_ctl;
 	bool cmdq_long_packet_ctl;
 	bool support_per_frame_lp;
+	bool legacy_phy_timing;
 };
 
 struct mtk_dsi {
@@ -249,23 +250,57 @@ static void mtk_dsi_phy_timconfig(struct mtk_dsi *dsi)
 	u32 data_rate_mhz = DIV_ROUND_UP(dsi->data_rate, HZ_PER_MHZ);
 	struct mtk_phy_timing *timing = &dsi->phy_timing;
 
-	timing->lpx = (60 * data_rate_mhz / (8 * 1000)) + 1;
-	timing->da_hs_prepare = (80 * data_rate_mhz + 4 * 1000) / 8000;
-	timing->da_hs_zero = (170 * data_rate_mhz + 10 * 1000) / 8000 + 1 -
-			     timing->da_hs_prepare;
-	timing->da_hs_trail = timing->da_hs_prepare + 1;
 
-	timing->ta_go = 4 * timing->lpx - 2;
-	timing->ta_sure = timing->lpx + 2;
-	timing->ta_get = 4 * timing->lpx;
-	timing->da_hs_exit = 2 * timing->lpx + 1;
 
-	timing->clk_hs_prepare = 70 * data_rate_mhz / (8 * 1000);
-	timing->clk_hs_post = timing->clk_hs_prepare + 8;
-	timing->clk_hs_trail = timing->clk_hs_prepare;
-	timing->clk_hs_zero = timing->clk_hs_trail * 4;
-	timing->clk_hs_exit = 2 * timing->clk_hs_trail;
+	if (dsi->driver_data->legacy_phy_timing)
+	{
+		timing->lpx = DIV_ROUND_UP(80 * data_rate_mhz, 8000);
+		if (timing->lpx == 0) timing->lpx = 1;
 
+		timing->da_hs_prepare = (64 * data_rate_mhz + 2500) / 8000;
+		if (timing->da_hs_prepare == 0) timing->da_hs_prepare = 1;
+
+		timing->da_hs_zero = (200 * data_rate_mhz + 5000) / 8000;
+		if (timing->da_hs_zero > timing->da_hs_prepare)
+		timing->da_hs_zero -= timing->da_hs_prepare;
+		else
+		timing->da_hs_zero = 1;
+
+		timing->da_hs_trail = ((100 * data_rate_mhz) / 8000) + 0x0A;
+
+		timing->ta_go = 4 * timing->lpx - 2;
+		timing->ta_sure = timing->lpx + 2;
+		timing->ta_get = 4 * timing->lpx;
+		timing->da_hs_exit = (60 * data_rate_mhz + 64000) / 8000;
+
+		timing->clk_hs_prepare = (70 * data_rate_mhz) / 8000;
+		timing->clk_hs_post = (timing->clk_hs_prepare * 4) + 8;
+		timing->clk_hs_trail = timing->clk_hs_prepare + 0x0A;
+		timing->clk_hs_zero = (400 * data_rate_mhz) / 8000;
+
+		if (timing->clk_hs_zero > timing->clk_hs_prepare)
+		timing->clk_hs_zero -= timing->clk_hs_prepare;
+		timing->clk_hs_exit = 2 * timing->clk_hs_prepare + timing->clk_hs_trail;
+	}
+	else 
+	{
+		timing->lpx = (60 * data_rate_mhz / (8 * 1000)) + 1;
+		timing->da_hs_prepare = (80 * data_rate_mhz + 4 * 1000) / 8000;
+		timing->da_hs_zero = (170 * data_rate_mhz + 10 * 1000) / 8000 + 1 -
+				     timing->da_hs_prepare;
+		timing->da_hs_trail = timing->da_hs_prepare + 1;
+
+		timing->ta_go = 4 * timing->lpx - 2;
+		timing->ta_sure = timing->lpx + 2;
+		timing->ta_get = 4 * timing->lpx;
+		timing->da_hs_exit = 2 * timing->lpx + 1;
+
+		timing->clk_hs_prepare = 70 * data_rate_mhz / (8 * 1000);
+		timing->clk_hs_post = timing->clk_hs_prepare + 8;
+		timing->clk_hs_trail = timing->clk_hs_prepare;
+		timing->clk_hs_zero = timing->clk_hs_trail * 4;
+		timing->clk_hs_exit = 2 * timing->clk_hs_trail;
+	}
 	timcon0 = FIELD_PREP(LPX, timing->lpx) |
 		  FIELD_PREP(HS_PREP, timing->da_hs_prepare) |
 		  FIELD_PREP(HS_ZERO, timing->da_hs_zero) |
@@ -1277,6 +1312,12 @@ static const struct mtk_dsi_driver_data mt2701_dsi_driver_data = {
 	.reg_shadow_dbg_off = 0x190
 };
 
+static const struct mtk_dsi_driver_data mt6582_dsi_driver_data = {
+	.reg_cmdq_off = 0x180,
+	.reg_vm_cmd_off = 0x130,
+	.legacy_phy_timing = true,
+};
+
 static const struct mtk_dsi_driver_data mt8183_dsi_driver_data = {
 	.reg_cmdq_off = 0x200,
 	.reg_vm_cmd_off = 0x130,
@@ -1305,6 +1346,7 @@ static const struct mtk_dsi_driver_data mt8188_dsi_driver_data = {
 
 static const struct of_device_id mtk_dsi_of_match[] = {
 	{ .compatible = "mediatek,mt2701-dsi", .data = &mt2701_dsi_driver_data },
+	{ .compatible = "mediatek,mt6582-dsi", .data = &mt6582_dsi_driver_data },
 	{ .compatible = "mediatek,mt8173-dsi", .data = &mt8173_dsi_driver_data },
 	{ .compatible = "mediatek,mt8183-dsi", .data = &mt8183_dsi_driver_data },
 	{ .compatible = "mediatek,mt8186-dsi", .data = &mt8186_dsi_driver_data },
