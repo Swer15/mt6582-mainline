@@ -132,6 +132,7 @@ static const struct mtk_efuse_pdata mtk_efuse_pdata = {
 
 static const struct of_device_id mtk_efuse_of_match[] = {
 	{ .compatible = "mediatek,mt6572-efuse", .data = &mtk_mt6572_efuse_pdata },
+	{ .compatible = "mediatek,mt6582-efuse", .data = &mtk_mt6572_efuse_pdata },
 	{ .compatible = "mediatek,mt8173-efuse", .data = &mtk_efuse_pdata },
 	{ .compatible = "mediatek,mt8186-efuse", .data = &mtk_mt8186_efuse_pdata },
 	{ .compatible = "mediatek,efuse", .data = &mtk_efuse_pdata },
