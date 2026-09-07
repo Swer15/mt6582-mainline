@@ -37,8 +37,11 @@
 #define DISP_REG_RDMA_TARGET_LINE		0x001c
 #define DISP_RDMA_MEM_CON			0x0024
 
+#define MEM_MODE_INPUT_FORMAT_YUYV_MT65XX		(0x000 << 4)
+#define MEM_MODE_INPUT_FORMAT_UYVY_MT65XX		(0x001 << 4)
 #define MEM_MODE_INPUT_FORMAT_RGB565_MT65XX		(0x004 << 4)
 #define MEM_MODE_INPUT_FORMAT_RGB888_MT65XX		(0x008 << 4)
+#define MEM_MODE_INPUT_FORMAT_ARGB8888_MT65XX		(0x0016 << 4)
 
 #define MEM_MODE_INPUT_FORMAT_RGB565			(0x000 << 4)
 #define MEM_MODE_INPUT_FORMAT_RGB888			(0x001 << 4)
@@ -54,7 +57,8 @@
 #define RDMA_FIFO_PSEUDO_SIZE(bytes)			(((bytes) / 16) << 16)
 #define RDMA_OUTPUT_VALID_FIFO_THRESHOLD(bytes)		((bytes) / 16)
 #define RDMA_FIFO_SIZE(rdma)			((rdma)->data->fifo_size)
-#define DISP_RDMA_MEM_START_ADDR		0x0f00
+// #define DISP_RDMA_MEM_START_ADDR		0x0f00
+#define DISP_RDMA_MEM_START_ADDR		0x0028
 
 #define RDMA_MEM_GMC				0x40402020
 
@@ -235,22 +239,16 @@ static unsigned int rdma_fmt_convert_mt65xx(unsigned int fmt)
 		return MEM_MODE_INPUT_FORMAT_RGB888_MT65XX;
 	case DRM_FORMAT_BGR888:
 		return MEM_MODE_INPUT_FORMAT_RGB888_MT65XX | MEM_MODE_INPUT_SWAP;
-	case DRM_FORMAT_RGBX8888:
-	case DRM_FORMAT_RGBA8888:
-		return MEM_MODE_INPUT_FORMAT_ARGB8888;
 	case DRM_FORMAT_BGRX8888:
 	case DRM_FORMAT_BGRA8888:
-		return MEM_MODE_INPUT_FORMAT_ARGB8888 | MEM_MODE_INPUT_SWAP;
+		return MEM_MODE_INPUT_FORMAT_ARGB8888_MT65XX | MEM_MODE_INPUT_SWAP;
 	case DRM_FORMAT_XRGB8888:
 	case DRM_FORMAT_ARGB8888:
-		return MEM_MODE_INPUT_FORMAT_RGBA8888;
-	case DRM_FORMAT_XBGR8888:
-	case DRM_FORMAT_ABGR8888:
-		return MEM_MODE_INPUT_FORMAT_RGBA8888 | MEM_MODE_INPUT_SWAP;
+		return MEM_MODE_INPUT_FORMAT_ARGB8888_MT65XX;
 	case DRM_FORMAT_UYVY:
-		return MEM_MODE_INPUT_FORMAT_UYVY;
+		return MEM_MODE_INPUT_FORMAT_UYVY_MT65XX;
 	case DRM_FORMAT_YUYV:
-		return MEM_MODE_INPUT_FORMAT_YUYV;
+		return MEM_MODE_INPUT_FORMAT_YUYV_MT65XX;
 	}
 }
 
@@ -423,6 +421,13 @@ static const struct mtk_disp_rdma_data mt2701_rdma_driver_data = {
 	.fmt_convert = rdma_fmt_convert,
 };
 
+static const struct mtk_disp_rdma_data mt6582_rdma_driver_data = {
+	.fifo_size = SZ_4K,
+	.formats = mt8173_formats,
+	.num_formats = ARRAY_SIZE(mt8173_formats),
+	.fmt_convert = rdma_fmt_convert_mt65xx,
+};
+
 static const struct mtk_disp_rdma_data mt8173_rdma_driver_data = {
 	.fifo_size = SZ_8K,
 	.formats = mt8173_formats,
@@ -447,6 +452,8 @@ static const struct mtk_disp_rdma_data mt8195_rdma_driver_data = {
 static const struct of_device_id mtk_disp_rdma_driver_dt_match[] = {
 	{ .compatible = "mediatek,mt2701-disp-rdma",
 	  .data = &mt2701_rdma_driver_data},
+	{ .compatible = "mediatek,mt6582-disp-rdma",
+	  .data = &mt6582_rdma_driver_data},
 	{ .compatible = "mediatek,mt8173-disp-rdma",
 	  .data = &mt8173_rdma_driver_data},
 	{ .compatible = "mediatek,mt8183-disp-rdma",
