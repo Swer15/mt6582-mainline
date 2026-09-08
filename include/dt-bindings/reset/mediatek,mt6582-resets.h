@@ -53,14 +53,39 @@
 #define MFG_G3D_RESET               0
 #define MFG_AXI_RESET               1
 
+/* MMSYS resets */
+#define MMSYS_SMI_COMMON_RST             0
+#define MMSYS_SMI_LARB0_RST              1
+#define MMSYS_CMDQ_RST                   2
+#define MMSYS_SMI_CMDQ_RST               3
+#define MMSYS_DISP_COLOR_RST             4
+#define MMSYS_DISP_BLS_RST               5
+#define MMSYS_DISP_WDMA_RST              6
+#define MMSYS_DISP_RDMA_RST              7
+#define MMSYS_DISP_OVL_RST               8
+#define MMSYS_MDP_TDSHP_RST              9
+#define MMSYS_MDP_WROT_RST               10
+#define MMSYS_MDP_WDMA_RST               11
+#define MMSYS_MDP_RSZ1_RST               12
+#define MMSYS_MDP_RSZ0_RST               13
+#define MMSYS_MDP_RDMA_RST               14
+#define MMSYS_MM_CONFIG_RST              15
+#define MMSYS_MDP_BLS_26M_RST            16
+#define MMSYS_CAM_MDP_RST                17
+#define MMSYS_DSI_RST                     18
+#define MMSYS_DPI_RST                     19
+#define MMSYS_FAKE_ENG_RST                20
+#define MMSYS_MUTEX_32K_RST                21
+#define MMSYS_RST_NUM                     22
+
 /* Watchdog */
 #define MT6582_TOPRGU_INFRA_SW_RST				0
-#define MT6582_TOPRGU_MM_SW_RST					1
+#define MT6582_TOPRGU_MM_SW_RST				1
 #define MT6582_TOPRGU_MFG_SW_RST				2
 #define MT6582_TOPRGU_VDEC_SW_RST				4
 #define MT6582_TOPRGU_VENC_IMG_SW_RST				5
 #define MT6582_TOPRGU_DDRPHY_SW_RST				6
-#define MT6582_TOPRGU_MD_SW_RST					7
+#define MT6582_TOPRGU_MD_SW_RST				7
 #define MT6582_TOPRGU_USB_SW_RST				8
 #define MT6582_TOPRGU_INFRA_AO_SW_RST				9
 #define MT6582_TOPRGU_CONNSYS_SW_RST				10
