@@ -168,6 +168,20 @@
 #define CALIB_BUF1_O_SLOPE_SIGN_V3(x)	(((x) >> 19) & 0x1)
 #define CALIB_BUF1_ID_V3(x)		(((x) >> 20) & 0x1)
 
+/*
+ * Layout of the fuses providing the calibration data
+ * These macros can be used for MT6582.
+ */
+#define CALIB_BUF1_ADC_OE_MT6582(x)		(((x) >> 12) & 0x3ff)
+#define CALIB_BUF1_ADC_GE_MT6582(x)		(((x) >> 22) & 0x3ff)
+#define CALIB_BUF0_VTS_TS1_MT6582(x)		(((x) >> 17) & 0x1ff)
+#define CALIB_BUF0_VTS_TS2_MT6582(x)		(((x) >> 8) & 0x1ff)
+#define CALIB_BUF1_VTS_TSABB_MT6582(x)		(((x) >> 0) & 0x1ff)
+#define CALIB_BUF0_DEGC_CALI_MT6582(x)		(((x) >> 1) & 0x3f)
+#define CALIB_BUF0_O_SLOPE_MT6582(x)		(((x) >> 26) & 0x3f)
+#define CALIB_BUF0_O_SLOPE_SIGN_MT6582(x)	(((x) >> 7) & 0x1)
+#define CALIB_BUF1_ID_MT6582(x)			(((x) >> 9) & 0x1)
+
 enum {
 	VTS1,
 	VTS2,
@@ -182,6 +196,7 @@ enum mtk_thermal_version {
 	MTK_THERMAL_V1 = 1,
 	MTK_THERMAL_V2,
 	MTK_THERMAL_V3,
+	MTK_THERMAL_MT6582
 };
 
 /* MT2701 thermal sensors */
@@ -540,6 +555,38 @@ static const struct mtk_thermal_data mt2701_thermal_data = {
 	.adcpnp = mt2701_adcpnp,
 	.sensor_mux_values = mt2701_mux_values,
 	.version = MTK_THERMAL_V1,
+};
+
+
+/*
+ * The MT2701 thermal controller has one bank, which can read up to
+ * three temperature sensors simultaneously. The MT2701 has a total of 3
+ * temperature sensors.
+ *
+ * The thermal core only gets the maximum temperature of this one bank,
+ * so the bank concept wouldn't be necessary here. However, the SVS (Smart
+ * Voltage Scaling) unit makes its decisions based on the same bank
+ * data.
+ */
+static const struct mtk_thermal_data mt6582_thermal_data = {
+	.auxadc_channel = MT2701_TEMP_AUXADC_CHANNEL,
+	.num_banks = 1,
+	.num_sensors = MT2701_NUM_SENSORS,
+	.vts_index = mt2701_vts_index,
+	.cali_val = MT2701_CALIBRATION,
+	.num_controller = MT2701_NUM_CONTROLLER,
+	.controller_offset = mt2701_tc_offset,
+	.need_switch_bank = true,
+	.bank_data = {
+		{
+			.num_sensors = 3,
+			.sensors = mt2701_bank_data,
+		},
+	},
+	.msr = mt2701_msr,
+	.adcpnp = mt2701_adcpnp,
+	.sensor_mux_values = mt2701_mux_values,
+	.version = MTK_THERMAL_MT6582,
 };
 
 /*
@@ -1070,6 +1117,32 @@ static int mtk_thermal_extract_efuse_v3(struct mtk_thermal *mt, u32 *buf)
 	return 0;
 }
 
+static int mtk_thermal_extract_efuse_mt6582(struct mtk_thermal *mt, u32 *buf)
+{
+	if (!CALIB_BUF1_VALID_V3(buf[1]))
+		return -EINVAL;
+
+	mt->adc_ge = CALIB_BUF1_ADC_GE_MT6582(buf[1]);
+	mt->degc_cali = CALIB_BUF0_DEGC_CALI_MT6582(buf[0]);
+	mt->o_slope = CALIB_BUF0_O_SLOPE_MT6582(buf[0]);
+	mt->vts[VTS1] = CALIB_BUF0_VTS_TS1_MT6582(buf[0]);
+	mt->vts[VTS2] = CALIB_BUF0_VTS_TS2_MT6582(buf[0]);
+	mt->vts[VTSABB] = CALIB_BUF1_VTS_TSABB_MT6582(buf[1]);
+	mt->o_slope_sign = CALIB_BUF0_O_SLOPE_SIGN_MT6582(buf[0]);
+
+	if (CALIB_BUF1_ID_MT6582(buf[1]) &
+	    CALIB_BUF0_O_SLOPE_SIGN_MT6582(buf[0]))
+		mt->o_slope = -CALIB_BUF0_O_SLOPE_MT6582(buf[0]);
+	else
+		mt->o_slope = CALIB_BUF0_O_SLOPE_MT6582(buf[0]);
+
+	// if (CALIB_BUF1_ID_MT6582(buf[1]) == 0)
+	// 	mt->o_slope = 0;
+
+	return 0;
+}
+
+
 static int mtk_thermal_get_calibration_data(struct device *dev,
 					    struct mtk_thermal *mt)
 {
@@ -1116,6 +1189,9 @@ static int mtk_thermal_get_calibration_data(struct device *dev,
 	case MTK_THERMAL_V3:
 		ret = mtk_thermal_extract_efuse_v3(mt, buf);
 		break;
+	case MTK_THERMAL_MT6582:
+		ret = mtk_thermal_extract_efuse_mt6582(mt, buf);
+		break;
 	default:
 		ret = -EINVAL;
 		break;
@@ -1144,6 +1220,10 @@ static const struct of_device_id mtk_thermal_of_match[] = {
 	{
 		.compatible = "mediatek,mt2712-thermal",
 		.data = (void *)&mt2712_thermal_data,
+	},
+	{
+		.compatible = "mediatek,mt6582-thermal",
+		.data = (void *)&mt6582_thermal_data,
 	},
 	{
 		.compatible = "mediatek,mt7622-thermal",
