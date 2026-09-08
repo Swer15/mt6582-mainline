@@ -5936,6 +5936,36 @@ static const struct panel_desc_dsi osd101t2045_53ts = {
 	.lanes = 4,
 };
 
+static const struct drm_display_mode boe_bp101wx1_210_mode = {
+	.clock = 64798,
+	.hdisplay = 1280,
+	.hsync_start = 1280 + 24,
+	.hsync_end = 1280 + 24 + 4,
+	.htotal = 1330,
+	.vdisplay = 800,
+	.vsync_start = 800 + 4,
+	.vsync_end = 800 + 4 + 2,
+	.vtotal = 812,
+	.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
+};
+
+static const struct panel_desc_dsi boe_bp101wx1_210_desc = {
+	.desc = {
+		.modes = &boe_bp101wx1_210_mode,
+		.num_modes = 1,
+		.bpc = 8,
+		.size = {
+			.width = 217,
+			.height = 136,
+		},
+		.connector_type = DRM_MODE_CONNECTOR_DSI,
+	},
+	.flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE,
+//	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
+	.format = MIPI_DSI_FMT_RGB888,
+	.lanes = 4,
+};
+
 static const struct of_device_id dsi_of_match[] = {
 	{
 		.compatible = "auo,b080uan01",
@@ -5955,6 +5985,9 @@ static const struct of_device_id dsi_of_match[] = {
 	}, {
 		.compatible = "osddisplays,osd101t2045-53ts",
 		.data = &osd101t2045_53ts
+	}, { 
+		.compatible = "boe,bp101wx1-210", 
+		.data = &boe_bp101wx1_210_desc 
 	}, {
 		/* sentinel */
 	}
@@ -5979,7 +6012,7 @@ static int panel_simple_dsi_probe(struct mipi_dsi_device *dsi)
 	err = mipi_dsi_attach(dsi);
 	if (err) {
 		struct panel_simple *panel = mipi_dsi_get_drvdata(dsi);
-
+		pr_err("failed to attach to DSI host: %d\n", err);
 		drm_panel_remove(&panel->base);
 	}
 
