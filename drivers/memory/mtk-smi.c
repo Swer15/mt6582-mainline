@@ -18,6 +18,7 @@
 #include <linux/soc/mediatek/mtk_sip_svc.h>
 #include <soc/mediatek/smi.h>
 #include <dt-bindings/memory/mt2701-larb-port.h>
+#include <dt-bindings/memory/mediatek,mt6582-larb-port.h>
 #include <dt-bindings/memory/mtk-memory-port.h>
 
 /* SMI COMMON */
@@ -26,6 +27,9 @@
 
 #define MT6572_SMI_L1_ARB0		0x204
 #define MT6572_SMI_L1_ARB1		0x208
+
+#define MT6582_SMI_L1_ARB2		0x20c
+#define MT6582_SMI_L1_ARB3		0x210
 
 #define SMI_L1_ARB			0x200
 #define SMI_BUS_SEL			0x220
@@ -95,7 +99,7 @@
 	(_id << 8 | _id << 10 | _id << 12 | _id << 14);	\
 })
 
-#define SMI_COMMON_INIT_REGS_NR		6
+#define SMI_COMMON_INIT_REGS_NR		7
 #define SMI_LARB_PORT_NR_MAX		32
 
 #define MTK_SMI_FLAG_THRT_UPDATE	BIT(0)
@@ -225,6 +229,7 @@ static int mtk_smi_larb_config_port_gen0(struct device *dev)
 		reg_val &= SMI_SECUR_CON_VAL_MSK(m4u_port_id);
 		reg_val |= sec_con_val;
 		reg_val |= SMI_SECUR_CON_VAL_DOMAIN(m4u_port_id);
+		// reg_val |= SMI_SECUR_CON_VAL_DOMAIN_6582(m4u_port_id, 0);
 		writel(reg_val, common->smi_ao_base +
 					REG_SMI_SECUR_CON_ADDR(m4u_port_id));
 	}
@@ -355,6 +360,13 @@ static int mtk_smi_larb_config_port_gen2_general(struct device *dev)
 static const u8 mtk_smi_larb_mt6572_ostd[][SMI_LARB_PORT_NR_MAX] = {
   [0] = {0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f,
   	0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f},
+};
+
+static const u8 mtk_smi_larb_mt6582_ostd[][SMI_LARB_PORT_NR_MAX] = {
+  	[0] = {0x8, 0x8, 0x3, 0x1, 0x2, 0x1, 0x4, 0x2, 0x2},
+  	[1] = {0x1, 0x1, 0x1, 0x1, 0x1, 0x1, 0x1},
+  	[2] = {0x1, 0x1, 0x1, 0x1, 0x1, 0x1, 0x1, 0x1, 0x1, 0x1, 0x1, 0x1, 
+		0x1, 0x1, 0x1, 0x1, 0x1},
 };
 
 static const u8 mtk_smi_larb_mt6893_ostd[][SMI_LARB_PORT_NR_MAX] = {
@@ -573,6 +585,17 @@ static const struct mtk_smi_larb_gen mtk_smi_larb_mt6572 = {
   .ostd = mtk_smi_larb_mt6572_ostd,
 };
 
+static const struct mtk_smi_larb_gen mtk_smi_larb_mt6582 = {
+  .port_in_larb = {
+		MT6582_LARB0_PORT_OFFSET, MT6582_LARB1_PORT_OFFSET,
+		MT6582_LARB2_PORT_OFFSET
+	},
+  .config_port = mtk_smi_larb_config_port_gen0,
+//   .config_port = mtk_smi_larb_config_port_gen1,
+  .flags_general = MTK_SMI_FLAG_BW_CALIBRATE,
+  .ostd = mtk_smi_larb_mt6582_ostd,
+};
+
 static const struct mtk_smi_larb_gen mtk_smi_larb_mt6779 = {
 	.config_port  = mtk_smi_larb_config_port_gen2_general,
 	.larb_direct_to_common_mask =
@@ -631,6 +654,7 @@ static const struct of_device_id mtk_smi_larb_of_ids[] = {
 	{.compatible = "mediatek,mt2701-smi-larb", .data = &mtk_smi_larb_mt2701},
 	{.compatible = "mediatek,mt2712-smi-larb", .data = &mtk_smi_larb_mt2712},
 	{.compatible = "mediatek,mt6572-smi-larb", .data = &mtk_smi_larb_mt6572},
+	{.compatible = "mediatek,mt6582-smi-larb", .data = &mtk_smi_larb_mt6582},
 	{.compatible = "mediatek,mt6779-smi-larb", .data = &mtk_smi_larb_mt6779},
 	{.compatible = "mediatek,mt6795-smi-larb", .data = &mtk_smi_larb_mt8173},
 	{.compatible = "mediatek,mt6893-smi-larb", .data = &mtk_smi_larb_mt6893},
@@ -830,6 +854,17 @@ static const struct mtk_smi_reg_pair mtk_smi_common_mt6572_init[SMI_COMMON_INIT_
 	{SMI_READ_FIFO_TH, 0x320},
 };
 
+static const struct mtk_smi_reg_pair mtk_smi_common_mt6582_init[SMI_COMMON_INIT_REGS_NR] = {
+	// {MT6572_SMI_L1LEN, 0xb},
+	{MT6572_SMI_L1LEN, 0x3},
+	{MT6572_SMI_L1_ARB0, 0},
+	{MT6572_SMI_L1_ARB1, 0x9f7},
+	{MT6582_SMI_L1_ARB2, 0x961},
+	{MT6582_SMI_L1_ARB3, 0xa11fff},
+	{SMI_M4U_TH, 0x10c85},
+	{SMI_READ_FIFO_TH, 0xc8f},
+};
+
 static const struct mtk_smi_reg_pair mtk_smi_common_mt6795_init[SMI_COMMON_INIT_REGS_NR] = {
 	{SMI_L1_ARB, 0x1b},
 	{SMI_M4U_TH, 0xce810c85},
@@ -849,6 +884,11 @@ static const struct mtk_smi_reg_pair mtk_smi_common_mt8195_init[SMI_COMMON_INIT_
 static const struct mtk_smi_common_plat mtk_smi_common_mt6572 = {
 	.type     = MTK_SMI_GEN0,
 	.init     = mtk_smi_common_mt6572_init,
+};
+
+static const struct mtk_smi_common_plat mtk_smi_common_mt6582 = {
+	.type     = MTK_SMI_GEN0,
+	.init     = mtk_smi_common_mt6582_init,
 };
 
 static const struct mtk_smi_common_plat mtk_smi_common_gen1 = {
@@ -940,6 +980,7 @@ static const struct of_device_id mtk_smi_common_of_ids[] = {
 	{.compatible = "mediatek,mt2701-smi-common", .data = &mtk_smi_common_gen1},
 	{.compatible = "mediatek,mt2712-smi-common", .data = &mtk_smi_common_gen2},
 	{.compatible = "mediatek,mt6572-smi-common", .data = &mtk_smi_common_mt6572},
+	{.compatible = "mediatek,mt6582-smi-common", .data = &mtk_smi_common_mt6582},
 	{.compatible = "mediatek,mt6779-smi-common", .data = &mtk_smi_common_mt6779},
 	{.compatible = "mediatek,mt6795-smi-common", .data = &mtk_smi_common_mt6795},
 	{.compatible = "mediatek,mt6893-smi-common", .data = &mtk_smi_common_mt6893},
