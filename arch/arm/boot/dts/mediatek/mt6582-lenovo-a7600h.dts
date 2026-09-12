@@ -1,8 +1,15 @@
-
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Copyright (c) 2026 
+ * Author: Burst_Caster <swer15l23@gmail.com>
+ */
+ 
 /dts-v1/;
-#include "mt6582-new.dtsi"
+// #include "mt6582-new.dtsi"
+#include "mt6582.dtsi"
 #include <dt-bindings/pinctrl/mt6582-pinfunc.h>
 #include <dt-bindings/input/input.h>
+#include <dt-bindings/power/mediatek,mt6582-power.h>
 
 
 
@@ -21,19 +28,21 @@
 		#address-cells = <1>;
 		#size-cells = <1>;
 		
-		bootargs = "console=ttyS0,921600n8 console=tty0 clk_ignore_unused pd_ignore_unused regulator_ignore_unused loglevel=8  earlycon  root=/dev/mmcblk1p1 rootwait rw "; //fbcon=map:0 video=mediatekdrmfb:1280x800-24@60
+		bootargs = "console=ttyS0,921600n8 console=tty0 clk_ignore_unused pd_ignore_unused regulator_ignore_unused loglevel=8  earlycon fw_devlink=off coherent_pool=32M  root=/dev/mmcblk1p1 rootwait rw "; //fbcon=map:0 video=mediatekdrmfb:1280x800-24@60
 		//bootargs = "earlyprintk console=ttyS0,921600n8 console=tty0 clk_ignore_unused ignore_loglevel keep_bootcon fbcon=map:0 earlycon";
 		stdout-path = "serial0:921600n8";
 
-		framebuffer: framebuffer@be900000 {
-			compatible = "simple-framebuffer";
-			memory-region = <&framebuffer_reserved>;
-			width = <1280>;
-			height = <800>;
-			stride = <(1280 * 2)>;
-			format = "r5g6b5";
-			status = "okay";
-		};
+		// framebuffer: framebuffer@be900000 {
+		// 	compatible = "simple-framebuffer";
+		// 	memory-region = <&framebuffer_reserved>;
+		// 	width = <1280>;
+		// 	height = <800>;
+		// 	stride = <(1280 * 2)>;
+		// 	format = "r5g6b5";
+		// 	// status = "okay";
+		// 	status = "disabled";
+		// 	power-domains = <&spm MT6582_POWER_DOMAIN_DIS>;
+		// };
 	};
 
 	cpus {
@@ -59,22 +68,52 @@
 		reg = <0x80000000 0x40000000>;
 	};
 
-	reserved-memory {
-		#address-cells = <1>;
-		#size-cells = <1>;
-		ranges;
+	// reserved-memory {
+	// 	#address-cells = <1>;
+	// 	#size-cells = <1>;
+	// 	ranges;
 
-		framebuffer_reserved: framebuffer@be900000 {
-			reg = <0xbe900000 0x00800000>;
-			no-map;
-		};
+	// 	framebuffer_reserved: framebuffer@be900000 {
+	// 		reg = <0xbe900000 0x00800000>;
+	// 		no-map;
+	// 	};
+	// };
 
-		// linux,cma {
-        	// 	compatible = "shared-dma-pool";
-        	// 	reusable;
-        	// 	size = <0x08000000>; /* 128 MB */
-        	// 	linux,cma-default;
-    		// };
+	panel_backlight: backlight {
+        	compatible = "pwm-backlight";
+        	pwms = <&bls 0 20000>; 
+        	// gpios = <&pio 18 GPIO_ACTIVE_HIGH>;
+        	post-pwm-on-delay-ms = <10>;
+        	pwm-off-delay-ms = <10>;
+        	brightness-levels = <
+              		0   4   8  12  16  20  24  28
+             		32  40  48  56  64  72  80  88
+             		96 112 128 144 160 176 192 208
+            		224 240 255 >;
+        	default-brightness-level = <16>; 
+		pinctrl-names = "default";
+    		pinctrl-0 = <&backlight_pins>;
+   	};
+
+	vcc_3v3_tps: regulator-tps62237 {
+    		compatible = "regulator-fixed";
+    		regulator-name = "vcc-3v3";
+    		regulator-min-microvolt = <3300000>;
+    		regulator-max-microvolt = <3300000>;
+    
+
+			
+    		// gpios = <&pio 118 GPIO_ACTIVE_HIGH>; 
+    		///enable-active-high;
+
+		// states = <3300000 1>,
+        	// 	<0 0>;
+
+		// pinctrl-names = "default";
+		// pinctrl-0 = <&panel_pins>;
+		startup_delay = <10000>;
+		
+		
 	};
 
 };
@@ -88,12 +127,18 @@
 		#interrupt-cells = <2>;
 		pinctrl-names = "default";
         	pinctrl-0 = <&pmic_int_pins>;
+
+		mt6323_adc: adc {
+			compatible = "mediatek,mt6323-auxadc";
+			#io-channel-cells = <1>;
+		};
+
 		mt6323_leds: leds {
 			compatible = "mediatek,mt6323-led";
 			#address-cells = <1>;
 			#size-cells = <0>;
 			status = "disabled";
-		};
+		};	
 		
 		mt6323regulator: mt6323regulator {
 			compatible = "mediatek,mt6323-regulator";
@@ -344,11 +389,56 @@
 			//interrupts = <MT6323_IRQ_RTC>; 
 		};
 	};
+
+	usb_gadget_vbus: usb-gadget-vbus {
+		compatible = "regulator-fixed";
+		regulator-name = "usb_gadget_vbus";
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		regulator-always-on;
+	};
 };
 
 &pio {
 	status = "okay";
 };
+
+&keyboard {
+	status = "okay";
+	linux,keymap = <MATRIX_KEY(0, 0, KEY_VOLUMEUP)
+			MATRIX_KEY(0, 1, KEY_VOLUMEDOWN)>;
+	keypad,num-rows = <1>;
+	keypad,num-columns = <2>;
+	debounce-delay-ms = <32>;
+};
+
+// &usb {
+// 	status = "disabled";
+	
+// 	dr_mode = "otg";
+// 	usb-role-switch-default-mode = "peripherial";
+// 	usb-role-switch;
+// 	connector {
+// 			compatible = "gpio-usb-b-connector", "usb-b-connector";
+// 			type = "micro";
+// 			pinctrl-0 = <&usb0_id_pin>;
+// 			pinctrl-names = "default";
+// 			id-gpios = <&pio 17 GPIO_ACTIVE_HIGH>;
+// 			vbus-supply = <&usb_otg_vbus>;
+
+// 	};
+// };
+
+// &u2phy0 {
+// 	status = "disabled";
+// 	// phy-supply = <&mt6323_vusb_reg>;
+// 	// vbus-supply = <&usb_otg_vbus>;
+// };
+
+// &u2port0 {
+// 	status = "disabled";
+// 	// phy-supply = <&mt6323_vusb_reg>;
+// };
 
 &mmc0 {
 	pinctrl-names = "default", "state_uhs";
@@ -426,13 +516,13 @@
 	status = "okay";
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2c1_pins>;
-	clock-frequency = <100000>;
+	clock-frequency = <400000>;
 
-	// bq27510g3: fuel-gauge@55 {
-	// 	compatible = "ti,bq27541";
-	// 	reg = <0x55>;
-	// 	monitored-battery = <&battery>;
-      	// };
+	bq27510g3: fuel-gauge@55 {
+		compatible = "ti,bq27541";
+		reg = <0x55>;
+		// monitored-battery = <&battery>;
+      	};
 
 	charger: bq24196@6b {
 		compatible = "ti,bq24196";
@@ -449,12 +539,7 @@
 		ti,input-current-limit-microamp = <2500000>;
 		ti,charge-current-microamp = <2000000>;
 
-		usb_otg_vbus: usb-otg-vbus {
-			regulator-name = "usb_otg_vbus";
-			regulator-min-microvolt = <5000000>;
-			regulator-max-microvolt = <5000000>;
-			regilator-enable-ramp-delay = <30000>;
-    		};
+		usb_otg_vbus: usb-otg-vbus {};
 	};
 };
 
@@ -558,4 +643,183 @@
 			output-low;
 		};
 	};
+
+	usb0_id_pin: usb0 {
+		pins-usb-id{
+			pinmux = <MT6582_PIN_17_EINT17__FUNC_GPIO17>;
+			bias-pull-up;
+			input-enable;
+			debounce-interval = <1000>;
+		};
+	};
+
+	backlight_pins: backlight-pins {
+		pins_bl_pwm {
+			pinmux = <MT6582_PIN_90_DISP_PWM__FUNC_DISP_PWM>; /* Имя макроса зависит от вашего ядра */
+			drive-strength = <MTK_DRIVE_8mA>;
+		};
+	
+
+    	};
+};
+
+&mali {
+	status = "okay";
+	// status = "disabled";
+};
+
+&mmsys {
+	// status = "disabled";
+	port {
+		#address-cells = <1>;
+		#size-cells = <0>;
+			mmsys_out: endpoint@0 {
+				reg = <0>;
+				remote-endpoint = <&ovl_in>;
+				// remote-endpoint = <&rdma0_in>;
+			};
+	};
+};
+
+&ovl0 {
+	// status = "disabled";
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		port@0 {
+			reg = <0>;
+			ovl_in: endpoint@0 {
+				remote-endpoint = <&mmsys_out>;
+			};
+		};
+
+		port@1 {
+			reg = <1>;
+			ovl_out: endpoint@1 {
+				remote-endpoint = <&rdma0_in>;
+			};
+		};
+	};
+};
+
+&rdma0 {
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		port@0 {
+			reg = <0>;
+			rdma0_in: endpoint@0 {
+				remote-endpoint = <&ovl_out>;
+				// remote-endpoint = <&mmsys_out>;
+			};
+		};
+
+		port@1 {
+			reg = <1>;
+			rdma0_out: endpoint@1 {
+				remote-endpoint = <&color_in>;
+			};
+		};
+	};
+};
+
+&color {
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		port@0 {
+			reg = <0>;
+			color_in: endpoint@0 {
+				remote-endpoint = <&rdma0_out>;
+			};
+		};
+
+		port@1 {
+			reg = <1>;
+			color_out: endpoint@1 {
+				remote-endpoint = <&bls_in>;
+			};
+		};
+	};
+};
+
+&bls {
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		port@0 {
+			reg = <0>;
+			bls_in: endpoint@0 {
+				remote-endpoint = <&color_out>;
+			};
+		};
+
+		port@1 {
+			reg = <1>;
+			bls_out: endpoint@1 {
+				remote-endpoint = <&dsi_in>;
+			};
+		};
+	};
+};
+
+&dsi {
+	status = "okay";
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		port@0 {
+			reg = <0>;
+			dsi_in: endpoint@0 {
+				remote-endpoint = <&bls_out>;
+			};
+		};
+
+		port@1 {
+			reg = <1>;
+			dsi_out: endpoint@1 {
+				remote-endpoint = <&panel_in>;
+			};
+		};
+	};
+
+	panel@0 {
+		compatible = "boe,bp101wx1-210";
+		reg = <0>;
+		
+		power-supply = <&vcc_3v3_tps>; 
+
+		// vcc-supply = <&vcc_3v3_tps>;
+
+		panel-orientation = "normal"; 
+
+		data-lanes = <0 1 2 3>; 
+
+		backlight = <&panel_backlight>;
+		ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			port@0{
+				reg = <0>;
+				panel_in: endpoint {
+					remote-endpoint = <&dsi_out>;
+				};
+			};
+		};
+	};
+};
+
+&dsi_out {
+	remote-endpoint = <&panel_in>;
+};
+
+&bls {
+	status = "okay";
+};
+
+&gce {
+	status = "okay";
 };

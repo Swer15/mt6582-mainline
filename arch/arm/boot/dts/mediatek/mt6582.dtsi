@@ -11,12 +11,51 @@
 #include <dt-bindings/pinctrl/mt6582-pinfunc.h>
 #include <dt-bindings/phy/phy.h>
 #include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/power/mediatek,mt6582-power.h>
 #include <dt-bindings/thermal/thermal.h>
+#include <dt-bindings/memory/mediatek,mt6582-larb-port.h>
+#include <dt-bindings/gce/mediatek,mt6582-gce.h>
 
 / {
 	#address-cells = <1>;
 	#size-cells = <1>;
 	interrupt-parent = <&sysirq>;
+
+	cpu_opp_table: opp-table {
+		compatible = "operating-points-v2";
+		opp-shared;
+
+		
+		opp-598000000 {
+			opp-hz = /bits/ 64 <598000000>;
+			opp-microvolt = <1150000>;
+		};
+
+		opp-747500000 {
+			opp-hz = /bits/ 64 <747500000>;
+			opp-microvolt = <1150000>;
+		};
+
+		opp-1040000000 {
+			opp-hz = /bits/ 64 <1040000000>;
+			opp-microvolt = <1150000>;
+		};
+
+		opp-1196000000 {
+			opp-hz = /bits/ 64 <1196000000>;
+			opp-microvolt = <1200000>;
+		};
+
+		opp-1300000000 {
+			opp-hz = /bits/ 64 <1300000000>;
+			opp-microvolt = <1250000>;
+		};
+
+		opp-1495000000 {
+			opp-hz = /bits/ 64 <1495000000>;
+			opp-microvolt = <1250000>;
+		};
+	};
 
 	cpus {
 		#size-cells = <0>;
@@ -30,9 +69,9 @@
 			clocks = <&infracfg CLK_INFRA_CPUSEL>,
 				 <&apmixedsys CLK_APMIXED_MAINPLL>;
 			clock-names = "cpu", "intermediate";
-			// operating-points-v2 = <&cpu_opp_table>;
+			operating-points-v2 = <&cpu_opp_table>;
+			#cooling-cells = <2>;
 			clock-frequency = <1300000000>;
-
 			i-cache-size = <32768>;
 			i-cache-line-size = <64>;
 			i-cache-sets = <512>;
@@ -49,9 +88,9 @@
 			clocks = <&infracfg CLK_INFRA_CPUSEL>,
 				 <&apmixedsys CLK_APMIXED_MAINPLL>;
 			clock-names = "cpu", "intermediate";
-			// operating-points-v2 = <&cpu_opp_table>;
+			operating-points-v2 = <&cpu_opp_table>;
+			#cooling-cells = <2>;
 			clock-frequency = <1300000000>;
-
 			i-cache-size = <32768>;
 			i-cache-line-size = <64>;
 			i-cache-sets = <512>;
@@ -68,9 +107,9 @@
 			clocks = <&infracfg CLK_INFRA_CPUSEL>,
 				 <&apmixedsys CLK_APMIXED_MAINPLL>;
 			clock-names = "cpu", "intermediate";
-			// operating-points-v2 = <&cpu_opp_table>;
+			operating-points-v2 = <&cpu_opp_table>;
+			#cooling-cells = <2>;
 			clock-frequency = <1300000000>;
-
 			i-cache-size = <32768>;
 			i-cache-line-size = <64>;
 			i-cache-sets = <512>;
@@ -87,9 +126,9 @@
 			clocks = <&infracfg CLK_INFRA_CPUSEL>,
 				 <&apmixedsys CLK_APMIXED_MAINPLL>;
 			clock-names = "cpu", "intermediate";
-			// operating-points-v2 = <&cpu_opp_table>;
+			operating-points-v2 = <&cpu_opp_table>;
+			#cooling-cells = <2>;
 			clock-frequency = <1300000000>;
-
 			i-cache-size = <32768>;
 			i-cache-line-size = <64>;
 			i-cache-sets = <512>;
@@ -191,6 +230,50 @@
 					 <GIC_SPI 114 IRQ_TYPE_LEVEL_HIGH>;
 		};
 
+		scpsys: syscon@10006000 {
+			compatible = "mediatek,mt6582-scpsys", "syscon", "simple-mfd";
+			reg = <0x10006000 0x1000>;
+
+			spm: power-controller {
+				compatible = "mediatek,mt6582-power-controller";
+				#address-cells = <1>;
+				#size-cells = <0>;
+				#power-domain-cells = <1>;
+				
+				power-domain@MT6582_POWER_DOMAIN_ISP {
+					reg = <MT6582_POWER_DOMAIN_ISP>;
+					clocks = <&topckgen CLK_TOP_MM_SEL>;
+					clock-names = "mm";
+					#power-domain-cells = <0>;
+				};
+
+				power-domain@MT6582_POWER_DOMAIN_DIS {
+					reg = <MT6582_POWER_DOMAIN_DIS>;
+					clocks = <&topckgen CLK_TOP_MM_SEL>;
+					clock-names = "mm";
+					#power-domain-cells = <0>;
+					mediatek,infracfg = <&infracfg>;
+				};
+
+				power-domain@MT6582_POWER_DOMAIN_MFG {
+					reg = <MT6582_POWER_DOMAIN_MFG>;
+					clocks = <&topckgen CLK_TOP_MFG_SEL>;
+					clock-names = "mfg";
+					#power-domain-cells = <0>;
+					mediatek,infracfg = <&infracfg>;
+				};
+
+				power-domain@MT6582_POWER_DOMAIN_VDE {
+					reg = <MT6582_POWER_DOMAIN_VDE>;
+					clocks = <&topckgen CLK_TOP_VDEC_SEL>;
+					clock-names = "vde";
+					#power-domain-cells = <0>;
+					mediatek,infracfg = <&infracfg>;
+				};
+
+			};
+		};
+
 		watchdog: watchdog@10007000 {
 			compatible = "mediatek,mt6582-wdt", "mediatek,mt6582-wdt";
 			reg = <0x10007000 0x100>;
@@ -201,6 +284,15 @@
 			reg = <0x10008000 0x80>;
 			interrupts = <GIC_SPI 112 IRQ_TYPE_LEVEL_LOW>;
 			clocks = <&system_clk>, <&clk32k>;
+		};
+
+		smi_common: smi@1000c000 {
+			compatible = "mediatek,mt6582-smi-common";
+			reg = <0x1000c000 0x1000>, <0x14011000 0x1000>;
+			clocks = <&infracfg CLK_INFRA_SMI>,
+				<&mmsys CLK_MM_SMI_COMMON>;
+			clock-names = "apb", "smi";
+			power-domains = <&spm MT6582_POWER_DOMAIN_DIS>;
 		};
 
 		pwrap: pwrap@1000d000 {
@@ -226,12 +318,60 @@
 			#clock-cells = <1>;
 		};
 
+		mipi_tx0: dsi-phy@10010000 {
+			compatible = "mediatek,mt2701-mipi-tx";
+			reg = <0x10010000 0x90>;
+			clocks = <&clk26m>;
+			clock-output-names = "mipi_tx0_pll";
+			#clock-cells = <0>;
+			#phy-cells = <0>;
+			power-domains = <&spm MT6582_POWER_DOMAIN_DIS>;
+		};
+
+		keyboard: kp@10011000 {
+			compatible = "mediatek,mt6779-keypad";
+			reg = <0x10011000 0x1000>;
+			interrupts = <GIC_SPI 116 IRQ_TYPE_EDGE_FALLING>;
+			clocks = <&infracfg CLK_INFRA_KP>;
+			clock-names = "kpd";
+        	};
+
 		sysirq: interrupt-controller@10200100 {
 			compatible = "mediatek,mt6582-sysirq", "mediatek,mt6577-sysirq";
 			reg = <0x10200100 0x1c>;
 			interrupt-parent = <&gic>;
 			interrupt-controller;
 			#interrupt-cells = <3>;
+		};
+
+		iommu: mmsys_iommu@10205000 {
+			compatible = "mediatek,mt6582-m4u";
+			reg = <0x10205000 0x1000>;
+			interrupts = <GIC_SPI 106 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&infracfg CLK_INFRA_M4U>, <&infracfg CLK_INFRA_SMI>;
+			clock-names = "bclk", "smi";
+			mediatek,larbs = <&larb0 &larb1 &larb2>;
+			#iommu-cells = <1>;
+			// dma-coherent;
+		};
+
+		efuse: efuse@10206000 {
+			compatible = "mediatek,mt6582-efuse";
+					// "mediatek,efuse";
+			reg = <0x10206000 0x1000>;
+			clocks = <&infracfg CLK_INFRA_EFUSE>;
+			clock-names = "efuse";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			/* thermal calibration — 8 байт по смещению 0x100 */
+			thermal_calibration: thermal-calibration@100 {
+				reg = <0x100 0xc>;
+			};
+
+			usb_calibration: usb-calibration@180 {
+				reg = <0x180 0x4>;
+			};
 		};
 
 		apmixedsys: syscon@10209000 {
@@ -259,6 +399,15 @@
 			      <0x10212000 0x2000>,
 			      <0x10214000 0x2000>,
 			      <0x10216000 0x2000>;
+		};
+
+		auxadc: adc@11001000 {
+			compatible = "mediatek,mt6582-auxadc", "mediatek,mt2701-auxadc";
+			reg = <0x11001000 0x1000>;
+			clocks = <&pericfg CLK_PERI_AUXADC>;
+			clock-names = "main";
+			#io-channel-cells = <1>;
+			status = "disabled";
 		};
 
 		uart0: serial@11002000 {
@@ -336,6 +485,59 @@
 			status = "disabled";
 		};
 
+		thermal: thermal@1100b000 {
+			#thermal-sensor-cells = <0>;
+			compatible = "mediatek,mt6582-thermal",
+					"mediatek,mt2701-thermal";
+			reg = <0x1100b000 0x1000>;
+			interrupts = <GIC_SPI 31 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&pericfg CLK_PERI_THERM>,
+				<&pericfg CLK_PERI_AUXADC>;
+			clock-names = "therm", "auxadc";
+			mediatek,auxadc = <&auxadc>;
+			mediatek,apmixedsys = <&apmixedsys>;
+			nvmem-cells = <&thermal_calibration>;
+			nvmem-cell-names = "calibration-data";
+		};
+
+		// usb: usb@11200000 {
+		// 	compatible = "mediatek,mt2701-musb",
+		// 		     "mediatek,mtk-musb";
+		// 	reg = <0x11200000 0x1000>;
+		// 	#address-cells = <1>;
+		// 	#size-cells = <1>;
+		// 	interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_LOW>;
+		// 	interrupt-names = "mc";
+		// 	phys = <&u2port0 PHY_TYPE_USB2>;
+		// 	dr_mode = "otg";
+		// 	clocks = <&pericfg CLK_PERI_USB0>,
+		// 		 <&pericfg CLK_PERI_USB0>,
+		// 		 <&apmixedsys CLK_APMIXED_UNIV48M>;
+		// 	clock-names = "main", "mcu", "univpll";
+			
+		// 	status = "disabled";
+		// };
+
+		// u2phy0: t-phy@11210000 {
+		// 	compatible = "mediatek,mt6582-u2phy";
+		// 		//      "mediatek,generic-tphy-v1";
+		// 	reg = <0x11210000 0x0800>;
+		// 	ranges;
+		// 	#address-cells = <1>;
+		// 	#size-cells = <1>;
+		// 	status = "disabled";
+			
+
+		// 	u2port0: usb-phy@11210800 {
+		// 		reg = <0x11210800 0x0100>;
+		// 		clocks = <&apmixedsys CLK_APMIXED_UNIV48M>;
+		// 		clock-names = "ref";
+		// 		#phy-cells = <1>;
+		// 		phy_type = <PHY_TYPE_USB2>;
+				
+		// 	};
+		// };
+
 		mmc0: mmc@11230000 {
 			compatible = "mediatek,mt6582-mmc";
 				
@@ -369,11 +571,184 @@
 			#clock-cells = <1>;
 			#reset-cells = <1>;
 		};
+		/* mali does not work yet. */
+		mali: gpu@13010000 {
+			compatible = "mediatek,mt6582-mali", "arm,mali-400";
+			reg = <0x13010000 0x30000>;
+			interrupts = <GIC_SPI 170 IRQ_TYPE_LEVEL_LOW>,
+				<GIC_SPI 171 IRQ_TYPE_LEVEL_LOW>,
+				<GIC_SPI 172 IRQ_TYPE_LEVEL_LOW>,
+				<GIC_SPI 173 IRQ_TYPE_LEVEL_LOW>,
+				<GIC_SPI 174 IRQ_TYPE_LEVEL_LOW>,
+				<GIC_SPI 175 IRQ_TYPE_LEVEL_LOW>;
+			interrupt-names = "gp", "gpmmu", "pp0", "ppmmu0", "pp1",
+					"ppmmu1";
+			clocks = 
+				<&mfg CLK_MFG_BG3D>,
+				<&mfg CLK_MFG_BG3D>;
+			clock-names = "bus", "core";
+			power-domains = <&spm MT6582_POWER_DOMAIN_MFG>;
+			resets = <&mfg MFG_G3D_RESET>;
+			status = "disabled";
+		};
 
 		mmsys: syscon@14000000 {
 			compatible = "mediatek,mt6582-mmsys", "syscon";
 			reg = <0x14000000 0x1000>;
 			#clock-cells = <1>;
+			#reset-cells = <1>;
+			mboxes = <&gce 0 CMDQ_THR_PRIO_HIGHEST>,
+				 <&gce 1 CMDQ_THR_PRIO_HIGHEST>;
+			mediatek,gce-client-reg = <&gce SUBSYS_14XXXXXX 0 0x1000>;
+		};
+
+		ovl0: ovl@14007000 {
+			compatible = "mediatek,mt6582-disp-ovl";
+			reg = <0x14007000 0x1000>;
+			interrupts = <GIC_SPI 153 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&mmsys CLK_MM_DISP_OVL>;
+			iommus = <&iommu M4U_PORT_DISP_OVL0>;
+			power-domains = <&spm MT6582_POWER_DOMAIN_DIS>;
+			mediatek,gce-client-reg = <&gce SUBSYS_14XXXXXX 0x7000 0x1000>;
+			// resets = <&mmsys MMSYS_DISP_OVL_RST>;
+			// reset-names = "mmsys_ovl_rst";
+		};
+
+		rdma0: rdma@14008000 {
+			compatible = "mediatek,mt6582-disp-rdma";
+			reg = <0x14008000 0x1000>;
+			interrupts = <GIC_SPI 152 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&mmsys CLK_MM_DISP_RDMA>;
+			iommus = <&iommu M4U_PORT_DISP_RDMA0>;
+			power-domains = <&spm MT6582_POWER_DOMAIN_DIS>;
+			mediatek,gce-client-reg = <&gce SUBSYS_14XXXXXX 0x8000 0x1000>;
+		};
+
+		wdma: 	wdma@14009000 {
+			compatible = "mediatek,mt2701-disp-wdma",
+				"mediatek,mt2701-disp-wdma";
+			reg = <0x14009000 0x1000>;
+			interrupts = <GIC_SPI 154 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&mmsys CLK_MM_DISP_WDMA>;
+			iommus = <&iommu M4U_PORT_DISP_WDMA0>;
+			//power-domains = <&spm MT6582_POWER_DOMAIN_DIS>;
+		};
+
+		bls: pwm@1400a000 {
+			compatible = "mediatek,mt2701-disp-pwm";
+			reg = <0x1400a000 0x1000>;
+			#pwm-cells = <2>;
+			clocks = <&mmsys CLK_MM_MDP_BLS_26M>,
+				<&mmsys CLK_MM_DISP_BLS>;
+			clock-names = "main", "mm";
+			power-domains = <&spm MT6582_POWER_DOMAIN_DIS>;
+		};
+
+		color: color@1400b000 {
+			compatible = "mediatek,mt6582-disp-color",
+				"mediatek,mt2701-disp-color";
+			reg = <0x1400b000 0x1000>;
+			interrupts = <GIC_SPI 156 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&mmsys CLK_MM_DISP_COLOR>;
+			power-domains = <&spm MT6582_POWER_DOMAIN_DIS>;
+			mediatek,gce-client-reg = <&gce SUBSYS_14XXXXXX 0xb000 0x1000>;
+		};
+	
+		dsi: dsi@1400c000 {
+			compatible = "mediatek,mt6582-dsi";
+			reg = <0x1400c000 0x1000>;
+			interrupts = <GIC_SPI 157 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&mmsys CLK_MM_DSI_ENGINE>,
+				<&mmsys CLK_MM_DSI_DIG>,
+				<&mipi_tx0>;
+			clock-names = "engine", "digital", "hs";
+			phys = <&mipi_tx0>;
+			phy-names = "dphy";
+			power-domains = <&spm MT6582_POWER_DOMAIN_DIS>;
+			status = "disabled";
+		};
+
+		dpi0: dpi@1400d000 {
+			compatible = "mediatek,mt6582-dpi",
+				"mediatek,mt2701-dpi";
+			reg = <0x1400d000 0x1000>;
+			interrupts = <GIC_SPI 158 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&mmsys CLK_MM_DPI_DIGL>,
+				<&mmsys CLK_MM_DPI_ENGINE>,
+				<&mipi_tx0>;
+			clock-names = "pixel", "engine", "pll";
+			power-domains = <&spm MT6582_POWER_DOMAIN_DIS>;
+			status = "disabled";
+		};
+
+		mutex: mutex@1400e000 {                         
+			compatible = "mediatek,mt6582-disp-mutex";
+			reg = <0x1400e000 0x1000>;
+			interrupts = <GIC_SPI 161 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&mmsys CLK_MM_MUTEX_32K>;
+			power-domains = <&spm MT6582_POWER_DOMAIN_DIS>;
+			mediatek,gce-client-reg = <&gce SUBSYS_14XXXXXX 0xe000 0x1000>;
+			mediatek,gce-events = <CMDQ_EVENT_MUTEX0>;
+		};
+
+		gce: mailbox@1400f000 {
+			compatible = "mediatek,mt6572-gce";
+			reg = <0x1400f000 0x1000>;
+			interrupts = <GIC_SPI 159 IRQ_TYPE_LEVEL_LOW>;
+			clocks = <&mmsys CLK_MM_CMDQ>, <&mmsys CLK_MM_SMI_CMDQ>;
+			clock-names = "gce", "smi";
+			#mbox-cells = <2>;
+			power-domains = <&spm MT6582_POWER_DOMAIN_DIS>;
+		};
+
+		larb0: larb@14010000 {
+			compatible = "mediatek,mt6582-smi-larb";
+			reg = <0x14010000 0x1000>;
+			mediatek,smi = <&smi_common>;
+			mediatek,larb-id = <0>;
+			clocks = <&mmsys CLK_MM_SMI_COMMON>,
+				<&mmsys CLK_MM_SMI_LARB0>;
+			clock-names = "apb", "smi";
+			power-domains = <&spm MT6582_POWER_DOMAIN_DIS>;
+		};
+
+		imgsys: syscon@15000000 {
+			compatible = "mediatek,mt6582-imgsys",
+				"syscon";
+			reg = <0x15000000 0x1000>;
+			#clock-cells = <1>;
+			power-domains = <&spm MT6582_POWER_DOMAIN_ISP>;
+		};
+
+		larb2: larb@15001000 {
+			compatible = "mediatek,mt6582-smi-larb";
+			reg = <0x15001000 0x1000>;
+			mediatek,smi = <&smi_common>;
+			mediatek,larb-id = <2>;
+			clocks = <&mmsys CLK_MM_SMI_COMMON>,
+				<&imgsys CLK_IMG_LARB2_SMI>;
+			clock-names = "apb", "smi";
+			power-domains = <&spm MT6582_POWER_DOMAIN_ISP>;
+		};
+
+		vdecsys: syscon@16000000 {
+			compatible = "mediatek,mt6582-vdecsys",
+				"mediatek,mt2701-vdecsys",
+				"syscon";
+			reg = <0x16000000 0x1000>;
+			#clock-cells = <1>;
+			power-domains = <&spm MT6582_POWER_DOMAIN_VDE>;
+		};
+
+		larb1: larb@16010000 {
+			compatible = "mediatek,mt6582-smi-larb";
+			reg = <0x16010000 0x1000>;
+			mediatek,smi = <&smi_common>;
+			mediatek,larb-id = <1>;
+			clocks = <&mmsys CLK_MM_SMI_COMMON>,
+				<&vdecsys CLK_VDEC_LARB>;
+			clock-names = "apb", "smi";
+			power-domains = <&spm MT6582_POWER_DOMAIN_VDE>;
 		};
 	};
 };
@@ -384,7 +759,6 @@
 			pinmux = <MT6582_PIN_84_SDA0__FUNC_SDA0>,
 				 <MT6582_PIN_85_SCL0__FUNC_SCL0>;
 			input-enable;
-			// bias-pull-up;
 		};
 	};
 
@@ -393,8 +767,6 @@
 			pinmux = <MT6582_PIN_86_SDA1__FUNC_SDA1>,
 				 <MT6582_PIN_87_SCL1__FUNC_SCL1>;
 			input-enable;
-			//bias-pull-up;
-			//bias-disable;
 		};
 	};
 
@@ -403,8 +775,6 @@
 			pinmux = <MT6582_PIN_88_SDA2__FUNC_SDA2>,
 				 <MT6582_PIN_89_SCL2__FUNC_SCL2>;
 			input-enable;
-			//bias-pull-up;
-			//bias-disable;
 		};
 	};
 
