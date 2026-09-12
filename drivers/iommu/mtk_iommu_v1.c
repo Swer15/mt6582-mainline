@@ -92,6 +92,9 @@ struct dma_iommu_mapping {
 #define MT6572_M4U_TF_PORT(TF)			FIELD_GET(MT6572_MMU_INT_ID_PORT_ID, TF)
 #define MT6572_M4U_TF_LARB(TF)			(FIELD_GET(MT6572_MMU_INT_ID_LARB_ID, TF) - 1)
 
+// #define MT6582_M4U_TF_LARB(TF)			(3 - (((TF) >> 13) & 0x7))
+// #define MT6582_M4U_TF_PORT(TF)			(((TF) >> 8) & 0xF)
+
 /* MTK generation one iommu HW only support 4K size mapping */
 #define MT2701_IOMMU_PAGE_SHIFT			12
 #define MT2701_IOMMU_PAGE_SIZE			(1UL << MT2701_IOMMU_PAGE_SHIFT)
@@ -103,10 +106,9 @@ struct dma_iommu_mapping {
  */
 #define M2701_IOMMU_PGT_SIZE			SZ_4M
 
-enum mtk_iommu_type {
-	MTK_IOMMU_MT6572,
-	MTK_IOMMU_V1,
-};
+#define MTK_IOMMU_V1_HAS_L2_CACHE		BIT(0)
+#define MTK_IOMMU_V1_BROKEN_RANGE_FLUSH		BIT(1)
+#define MTK_IOMMU_V1_HAS_COHERENT_EN		BIT(2)
 
 struct mtk_iommu_v1_suspend_reg {
 	u32			standard_axi_mode;
@@ -129,7 +131,8 @@ struct mtk_iommu_v1_data {
 
 	struct mtk_iommu_v1_suspend_reg	reg;
 
-	enum mtk_iommu_type type;
+	// enum mtk_iommu_type type;
+	const struct mtk_iommu_plat_data *plat_data;
 };
 
 struct mtk_iommu_v1_domain {
@@ -138,6 +141,17 @@ struct mtk_iommu_v1_domain {
 	u32				*pgt_va;
 	dma_addr_t			pgt_pa;
 	struct mtk_iommu_v1_data	*data;
+};
+
+struct mtk_iommu_plat_data {
+	u32			flags;
+	u32			num_larbs;
+	u32			port_offsets[MT2701_LARB_NR_MAX];
+	u32			tf_larb_sub;
+	u32			tf_port_shift;
+	u32			tf_port_mask;
+	bool			sub_inverse;
+	
 };
 
 static int mtk_iommu_v1_bind(struct device *dev)
@@ -159,34 +173,33 @@ static struct mtk_iommu_v1_domain *to_mtk_domain(struct iommu_domain *dom)
 	return container_of(dom, struct mtk_iommu_v1_domain, domain);
 }
 
-static const int mt2701_m4u_in_larb[] = {
-	LARB0_PORT_OFFSET, LARB1_PORT_OFFSET,
-	LARB2_PORT_OFFSET, LARB3_PORT_OFFSET
-};
-
-static inline int mt2701_m4u_to_larb(int id)
+static inline int m4u_to_larb(int id, void *dev_id)
 {
+	struct mtk_iommu_v1_data *data = dev_id;
 	int i;
+	unsigned int port_id = (unsigned int) id;
 
-	for (i = ARRAY_SIZE(mt2701_m4u_in_larb) - 1; i >= 0; i--)
-		if ((id) >= mt2701_m4u_in_larb[i])
+	for (i = data->plat_data->num_larbs - 1; i >= 0; i--)
+		if ((port_id) >= data->plat_data->port_offsets[(unsigned int) i])
 			return i;
 
 	return 0;
 }
 
-static inline int mt2701_m4u_to_port(int id)
+static inline int m4u_to_port(int id, void *dev_id)
 {
-	int larb = mt2701_m4u_to_larb(id);
+	struct mtk_iommu_v1_data *data = dev_id;
+	int larb = m4u_to_larb(id, dev_id);
 
-	return id - mt2701_m4u_in_larb[larb];
+	return id - (int) data->plat_data->port_offsets[(unsigned int) larb];
 }
 
 static void mtk_iommu_v1_tlb_flush_all(struct mtk_iommu_v1_data *data)
 {
 	u32 val = F_INVLD_EN0;
-	if (data->type == MTK_IOMMU_V1)
-	    val |= F_INVLD_EN1;
+	// if (data->type == MTK_IOMMU_V1)
+	if (data->plat_data->flags & MTK_IOMMU_V1_HAS_L2_CACHE)
+	    val |= F_INVLD_EN1; 
 
 	writel_relaxed(val, data->base + REG_MMU_INV_SEL);
 	writel_relaxed(F_ALL_INVLD, data->base + REG_MMU_INVALIDATE);
@@ -198,9 +211,8 @@ static void mtk_iommu_v1_tlb_flush_range(struct mtk_iommu_v1_data *data,
 {
 	int ret;
 	u32 tmp, val = F_INVLD_EN0;
-	if (data->type == MTK_IOMMU_V1)
+	if (data->plat_data->flags & MTK_IOMMU_V1_HAS_L2_CACHE)
 		val |= F_INVLD_EN1;
-
 	writel_relaxed(val, data->base + REG_MMU_INV_SEL);
 	writel_relaxed(iova & F_MMU_FAULT_VA_MSK,
 		data->base + REG_MMU_INVLD_START_A);
@@ -208,7 +220,7 @@ static void mtk_iommu_v1_tlb_flush_range(struct mtk_iommu_v1_data *data,
 		data->base + REG_MMU_INVLD_END_A);
 	writel_relaxed(F_MMU_INV_RANGE, data->base + REG_MMU_INVALIDATE);
 
-	if (data->type == MTK_IOMMU_V1) {
+	if (data->plat_data->flags & MTK_IOMMU_V1_HAS_L2_CACHE) {
 		ret = readl_poll_timeout_atomic(data->base + REG_MMU_CPE_DONE,
 					tmp, tmp != 0, 10, 100000);
 		if (ret) {
@@ -228,7 +240,7 @@ static irqreturn_t mtk_iommu_v1_isr(int irq, void *dev_id)
 {
 	struct mtk_iommu_v1_data *data = dev_id;
 	struct mtk_iommu_v1_domain *dom = data->m4u_dom;
-	u32 int_state, regval, fault_iova, fault_pa;
+	u32 int_state, regval, fault_iova, fault_pa, val;
 	unsigned int fault_larb, fault_port;
 
 	/* Read error information from registers */
@@ -239,13 +251,19 @@ static irqreturn_t mtk_iommu_v1_isr(int irq, void *dev_id)
 	fault_pa = readl_relaxed(data->base + REG_MMU_INVLD_PA);
 	regval = readl_relaxed(data->base + REG_MMU_INT_ID);
 
-	if (data->type == MTK_IOMMU_V1) {
-		fault_larb = MT2701_M4U_TF_LARB(regval);
-		fault_port = MT2701_M4U_TF_PORT(regval);
-	} else {
-		fault_larb = MT6572_M4U_TF_LARB(regval);
-		fault_port = MT6572_M4U_TF_PORT(regval);
-	}
+	val = (regval >> 13) & 0x7;
+	// if (data->type == MTK_IOMMU_V1) {
+	// 	fault_larb = MT2701_M4U_TF_LARB(regval);
+	// 	fault_port = MT2701_M4U_TF_PORT(regval);
+	// } else {
+	// 	fault_larb = MT6572_M4U_TF_LARB(regval);
+	// 	fault_port = MT6572_M4U_TF_PORT(regval);
+	// }
+	if (data->plat_data->sub_inverse)
+		fault_larb = val - data->plat_data->tf_larb_sub;
+	else
+		fault_larb = data->plat_data->tf_larb_sub - val;
+	fault_port = (regval >> data->plat_data->tf_port_shift) & data->plat_data->tf_port_mask;
 
 	/*
 	 * MTK v1 iommu HW could not determine whether the fault is read or
@@ -277,8 +295,8 @@ static void mtk_iommu_v1_config(struct mtk_iommu_v1_data *data,
 	int i;
 
 	for (i = 0; i < fwspec->num_ids; ++i) {
-		larbid = mt2701_m4u_to_larb(fwspec->ids[i]);
-		portid = mt2701_m4u_to_port(fwspec->ids[i]);
+		larbid = m4u_to_larb(fwspec->ids[i], data);
+		portid = m4u_to_port(fwspec->ids[i], data);
 		larb_mmu = &data->larb_imu[larbid];
 
 		dev_dbg(dev, "%s iommu port: %d\n",
@@ -475,12 +493,12 @@ static struct iommu_device *mtk_iommu_v1_probe_device(struct device *dev)
 	data = dev_iommu_priv_get(dev);
 
 	/* Link the consumer device with the smi-larb device(supplier) */
-	larbid = mt2701_m4u_to_larb(fwspec->ids[0]);
+	larbid = m4u_to_larb(fwspec->ids[0], data);
 	if (larbid >= MT2701_LARB_NR_MAX)
 		return ERR_PTR(-EINVAL);
 
 	for (idx = 1; idx < fwspec->num_ids; idx++) {
-		larbidx = mt2701_m4u_to_larb(fwspec->ids[idx]);
+		larbidx = m4u_to_larb(fwspec->ids[idx], data);
 		if (larbid != larbidx) {
 			dev_err(dev, "Can only use one larb. Fail@larb%d-%d.\n",
 				larbid, larbidx);
@@ -524,7 +542,7 @@ static void mtk_iommu_v1_release_device(struct device *dev)
 	unsigned int larbid;
 
 	data = dev_iommu_priv_get(dev);
-	larbid = mt2701_m4u_to_larb(fwspec->ids[0]);
+	larbid = m4u_to_larb(fwspec->ids[0], data);
 	larbdev = data->larb_imu[larbid].dev;
 	device_link_remove(dev, larbdev);
 }
@@ -569,7 +587,7 @@ static int mtk_iommu_v1_hw_init(const struct mtk_iommu_v1_data *data)
 	}
 
 	regval = F_MMU_TF_PROTECT_SEL(2);
-	if (data->type == MTK_IOMMU_V1)
+	if (data->plat_data->flags & MTK_IOMMU_V1_HAS_COHERENT_EN)
 		regval |= F_MMU_CTRL_COHERENT_EN;
 
 	writel_relaxed(regval, data->base + REG_MMU_CTRL_REG);
@@ -619,9 +637,38 @@ static const struct iommu_ops mtk_iommu_v1_ops = {
 	}
 };
 
+static const struct mtk_iommu_plat_data mt2701_data = {
+	.flags = MTK_IOMMU_V1_HAS_COHERENT_EN | MTK_IOMMU_V1_HAS_L2_CACHE,
+	.num_larbs = 3,
+	.port_offsets = { 0, 11, 21},
+	.tf_larb_sub = 6,
+	.tf_port_shift = 8,
+	.tf_port_mask = 0xf,
+};
+
+static const struct mtk_iommu_plat_data mt6572_data = {
+	.flags = MTK_IOMMU_V1_BROKEN_RANGE_FLUSH,
+	.num_larbs = 1,
+	.port_offsets = { 0},
+	.tf_larb_sub = 1,
+	.tf_port_shift = 8,
+	.tf_port_mask = 0xf,
+	.sub_inverse = true,
+};
+
+static const struct mtk_iommu_plat_data mt6582_data = {
+	.flags = MTK_IOMMU_V1_HAS_COHERENT_EN |MTK_IOMMU_V1_BROKEN_RANGE_FLUSH | MTK_IOMMU_V1_HAS_L2_CACHE,
+	.num_larbs = 3,
+	.port_offsets = { 0, 9, 16},
+	.tf_larb_sub = 3,
+	.tf_port_shift = 8,
+	.tf_port_mask = 0xf,
+};
+
 static const struct of_device_id mtk_iommu_v1_of_ids[] = {
-	{ .compatible = "mediatek,mt2701-m4u", .data = (void *)MTK_IOMMU_V1 },
-	{ .compatible = "mediatek,mt6572-m4u", .data = (void *)MTK_IOMMU_MT6572 },
+	{ .compatible = "mediatek,mt2701-m4u", .data = &mt2701_data },
+	{ .compatible = "mediatek,mt6572-m4u", .data = &mt6572_data },
+	{ .compatible = "mediatek,mt6582-m4u", .data = &mt6582_data },
 	{}
 };
 MODULE_DEVICE_TABLE(of, mtk_iommu_v1_of_ids);
@@ -645,7 +692,10 @@ static int mtk_iommu_v1_probe(struct platform_device *pdev)
 		return -ENOMEM;
 
 	data->dev = dev;
-	data->type = (enum mtk_iommu_type)of_device_get_match_data(dev);
+
+	data->plat_data = of_device_get_match_data(dev);
+	if (!data->plat_data)
+		return -EINVAL;
 
 	/* Protect memory. HW will access here while translation fault.*/
 	protect = devm_kcalloc(dev, 2, MTK_PROTECT_PA_ALIGN,
