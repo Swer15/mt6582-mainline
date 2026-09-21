@@ -76,7 +76,7 @@
 #define MT6582_DISP_OUT_SEL_DSI             0x0
 #define MT6582_DISP_OUT_SEL_DPI0             0x1
 
-#define MT6582_MMSYS_SW0_RST_B		0x13c
+#define MT6582_MMSYS_SW0_RST_B		0x138
 
 
 static const struct mtk_mmsys_routes mt6582_mmsys_routing_table[] = {
