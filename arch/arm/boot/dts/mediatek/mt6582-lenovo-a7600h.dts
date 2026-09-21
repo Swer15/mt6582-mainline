@@ -111,7 +111,7 @@
 
 		// pinctrl-names = "default";
 		// pinctrl-0 = <&panel_pins>;
-		startup_delay = <10000>;
+		startup-delay-us = <10000>;
 		
 		
 	};
