@@ -498,7 +498,6 @@
 		reg = <0x5d>;
 		interrupt-parent = <&pio>;
 		interrupts = <10 IRQ_TYPE_EDGE_FALLING>;
-		irq-flags = <2>;
 		irq-gpios = <&pio 10 GPIO_ACTIVE_HIGH>;
         	reset-gpios = <&pio 13 GPIO_ACTIVE_HIGH>;
 		AVDD28-supply = <&mt6323_vgp2_reg>;
