@@ -31,6 +31,8 @@ properties:
 
         # AU Optronics Corporation 8.0" WUXGA TFT LCD panel
       - auo,b080uan01
+        # BOE BP101WX1-210 10.1" WXGA TFT LCD panel
+      - boe,bp101wx1-210
         # Boe Corporation 8.0" WUXGA TFT LCD panel
       - boe,tv080wum-nl0
         # Innolux P079ZCA 7.85" 768x1024 TFT LCD panel
