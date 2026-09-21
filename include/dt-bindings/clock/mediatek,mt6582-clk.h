@@ -31,50 +31,51 @@
 #define CLK_TOP_UNIVPLL_D3			15
 #define CLK_TOP_UNIVPLL_D5			16
 #define CLK_TOP_UNIVPLL_D7			17
+#define CLK_TOP_UNIVPLL_D26			18
 
-#define CLK_TOP_UNIVPLL1_D2			18
-#define CLK_TOP_UNIVPLL1_D4			19
-#define CLK_TOP_UNIVPLL1_D8			20
+#define CLK_TOP_UNIVPLL1_D2			19
+#define CLK_TOP_UNIVPLL1_D4			20
+#define CLK_TOP_UNIVPLL1_D8			21
 
-#define CLK_TOP_UNIVPLL2_D2			21
-#define CLK_TOP_UNIVPLL2_D4			22
-#define CLK_TOP_UNIVPLL2_D8			23
-#define CLK_TOP_UNIVPLL2_D16			24
-#define CLK_TOP_UNIVPLL2_D32			25
+#define CLK_TOP_UNIVPLL2_D2			22
+#define CLK_TOP_UNIVPLL2_D4			23
+#define CLK_TOP_UNIVPLL2_D8			24
+#define CLK_TOP_UNIVPLL2_D16			25
+#define CLK_TOP_UNIVPLL2_D32			26
 
-#define CLK_TOP_UNIVPLL3_D2			26
-#define CLK_TOP_UNIVPLL3_D4			27
+#define CLK_TOP_UNIVPLL3_D2			27
+#define CLK_TOP_UNIVPLL3_D4			28
 
-#define CLK_TOP_MSDCPLL_D2			28
+#define CLK_TOP_MSDCPLL_D2			29
 
-#define CLK_TOP_MMPLL_D2			29
+#define CLK_TOP_MMPLL_D2			30
 
-#define CLK_TOP_DMPLL				30
-#define CLK_TOP_DMPLL_D2			31
-#define CLK_TOP_DMPLL_D4			32
-#define CLK_TOP_DMPLL_X2			33
+#define CLK_TOP_DMPLL				31
+#define CLK_TOP_DMPLL_D2			32
+#define CLK_TOP_DMPLL_D4			33
+#define CLK_TOP_DMPLL_X2			34
 
 /*muxes*/
-#define CLK_TOP_AXI_SEL				34
-#define CLK_TOP_MEM_SEL				35
-#define CLK_TOP_DDRPHYCFG_SEL			36
-#define CLK_TOP_MM_SEL				37
-#define CLK_TOP_PWM_SEL				38
-#define CLK_TOP_VDEC_SEL			39
-#define CLK_TOP_MFG_SEL				40
-#define CLK_TOP_CAMTG_SEL			41
-#define CLK_TOP_UART_SEL			42
-#define CLK_TOP_SPI_SEL			    	43
-#define CLK_TOP_USB20_SEL			44
-#define CLK_TOP_MSDC30_0_SEL	    		45
-#define CLK_TOP_MSDC30_1_SEL			46
-#define CLK_TOP_MSDC30_2_SEL			47
-#define CLK_TOP_AUDIO_SEL			48
-#define CLK_TOP_AUD_INTBUS_SEL			49
-#define CLK_TOP_PMICSPI_SEL			50
-#define CLK_TOP_SCP_SEL				51
+#define CLK_TOP_AXI_SEL				35
+#define CLK_TOP_MEM_SEL				36
+#define CLK_TOP_DDRPHYCFG_SEL			37
+#define CLK_TOP_MM_SEL				38
+#define CLK_TOP_PWM_SEL				39
+#define CLK_TOP_VDEC_SEL			40
+#define CLK_TOP_MFG_SEL				41
+#define CLK_TOP_CAMTG_SEL			42
+#define CLK_TOP_UART_SEL			43
+#define CLK_TOP_SPI_SEL			    	44
+#define CLK_TOP_USB20_SEL			45
+#define CLK_TOP_MSDC30_0_SEL	    		46
+#define CLK_TOP_MSDC30_1_SEL			47
+#define CLK_TOP_MSDC30_2_SEL			48
+#define CLK_TOP_AUDIO_SEL			49
+#define CLK_TOP_AUD_INTBUS_SEL			50
+#define CLK_TOP_PMICSPI_SEL			51
+#define CLK_TOP_SCP_SEL				52
 
-#define CLK_TOP_NR_CLK			    	52
+#define CLK_TOP_NR_CLK			    	53
 
 
 /* APMIXEDSYS */
