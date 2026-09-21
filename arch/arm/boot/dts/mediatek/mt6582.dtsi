@@ -650,8 +650,7 @@
 		};
 
 		wdma: wdma@14009000 {
-			compatible = "mediatek,mt2701-disp-wdma",
-				"mediatek,mt2701-disp-wdma";
+			compatible = "mediatek,mt2701-disp-wdma";
 			reg = <0x14009000 0x1000>;
 			interrupts = <GIC_SPI 154 IRQ_TYPE_LEVEL_LOW>;
 			clocks = <&mmsys CLK_MM_DISP_WDMA>;
