@@ -534,10 +534,7 @@
 
 		ce-gpios = <&pio 19 GPIO_ACTIVE_LOW>;
 
-		/* Unallowed properties */
-		ti,system-minimum-voltage-mv = <3200>;
-		ti,input-current-limit-microamp = <2500000>;
-		ti,charge-current-microamp = <2000000>;
+		ti,system-minimum-microvolt = <3200000>;
 
 		usb_otg_vbus: usb-otg-vbus {};
 	};
