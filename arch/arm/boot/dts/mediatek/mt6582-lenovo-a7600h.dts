@@ -453,7 +453,6 @@
 	non-removable;
 	mmc-ddr-1_8v;
 	mmc-hs200-1_8v;
-	non-removable;
 	no-sd;
 	no-sdio;
 	mediatek,latch-ck = <0>;
@@ -475,7 +474,6 @@
 	sd-uhs-sdr50;
 	sd-uhs-sdr104;
 	sd-uhs-ddr50;
-	cap-sd-highspeed;
 	no-mmc;
 	no-sdio;
 	no-write-protect;
