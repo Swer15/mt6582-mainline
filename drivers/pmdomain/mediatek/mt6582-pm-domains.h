@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
- * Copyright (c) 2026 
+ * Copyright (c) 2026
  * Author: Burst_Caster <swer15l23@gmail.com>
  */
  
@@ -39,9 +39,9 @@
 		.sram_pdn_bits = GENMASK(8, 8),
 		.sram_pdn_ack_bits = 0,
 		.bp_cfg = {
-			BUS_PROT_INFRA_UPDATE_TOPAXI(MT6582_TOP_AXI_PROT_EN_MD1_M0 | 
-                MT6582_TOP_AXI_PROT_EN_MD1_M1 | MT6582_TOP_AXI_PROT_EN_MD1_M2 |
-                MT6582_TOP_AXI_PROT_EN_AP2MD_MD1),
+			BUS_PROT_INFRA_UPDATE_TOPAXI(MT6582_TOP_AXI_PROT_EN_MD1_M0 |
+				MT6582_TOP_AXI_PROT_EN_MD1_M1 | MT6582_TOP_AXI_PROT_EN_MD1_M2 |
+				MT6582_TOP_AXI_PROT_EN_AP2MD_MD1),
 		},
 	},
 	[MT6582_POWER_DOMAIN_CONN] = {
@@ -54,7 +54,7 @@
 		.sram_pdn_ack_bits = 0,
 		.bp_cfg = {
 			BUS_PROT_INFRA_UPDATE_TOPAXI(MT6582_TOP_AXI_PROT_EN_CONN_M |
-            MT6582_TOP_AXI_PROT_EN_CONN_S),
+				MT6582_TOP_AXI_PROT_EN_CONN_S),
 		},
 	},
 	[MT6582_POWER_DOMAIN_DIS] = {

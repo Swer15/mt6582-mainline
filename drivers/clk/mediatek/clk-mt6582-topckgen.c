@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
- * Copyright (c) 2026 
+ * Copyright (c) 2026
  * Author: Burst_Caster <swer15l23@gmail.com>
  */
 
@@ -46,13 +46,17 @@ static const struct mtk_fixed_factor top_fixed_divs[] = {
 	FACTOR(CLK_TOP_UNIVPLL_D3, "univpll_d3", "univpll", 1, 3),
 	FACTOR(CLK_TOP_UNIVPLL_D5, "univpll_d5", "univpll", 1, 5),
 	FACTOR(CLK_TOP_UNIVPLL_D7, "univpll_d7", "univpll", 1, 7),
+	FACTOR(CLK_TOP_UNIVPLL_D26, "univpll_d26", "univpll", 1, 26),
 
+	FACTOR(CLK_TOP_UNIVPLL1_D2, "univpll1_d2", "univpll_d2", 1, 2),
 	FACTOR(CLK_TOP_UNIVPLL1_D4, "univpll1_d4", "univpll_d2", 1, 4),
 	FACTOR(CLK_TOP_UNIVPLL1_D8, "univpll1_d8", "univpll_d2", 1, 8),
 
 	FACTOR(CLK_TOP_UNIVPLL2_D2, "univpll2_d2", "univpll_d3", 1, 2),
 	FACTOR(CLK_TOP_UNIVPLL2_D4, "univpll2_d4", "univpll_d3", 1, 4),
 	FACTOR(CLK_TOP_UNIVPLL2_D8, "univpll2_d8", "univpll_d3", 1, 8),
+	FACTOR(CLK_TOP_UNIVPLL2_D16, "univpll2_d16", "univpll_d3", 1, 16),
+	FACTOR(CLK_TOP_UNIVPLL2_D32, "univpll2_d32", "univpll_d3", 1, 32),
 	FACTOR(CLK_TOP_UNIVPLL3_D2, "univpll3_d2", "univpll", 1, 8),
 	FACTOR(CLK_TOP_UNIVPLL3_D4, "univpll3_d4", "univpll", 1, 16),
 
@@ -64,7 +68,6 @@ static const struct mtk_fixed_factor top_fixed_divs[] = {
 	FACTOR(CLK_TOP_DMPLL_D2, "dmpll_d2", "dmpll_ck", 1, 2),
 	FACTOR(CLK_TOP_DMPLL_D4, "dmpll_d4", "dmpll_ck", 1, 4),
 	FACTOR(CLK_TOP_DMPLL_X2, "dmpll_x2", "dmpll", 2, 1),
-	
 };
 
 
@@ -268,7 +271,6 @@ static const struct mtk_mux top_muxes[] = {
 		0x0080, 0, 4, 7, CLK_IS_CRITICAL | CLK_SET_RATE_PARENT),
 	TOP_MUX_GATE(CLK_TOP_SCP_SEL, "scp_sel", scp_parents,
 		0x0080, 8, 2, 15, 0),
-	
 };
 
 
@@ -287,11 +289,9 @@ static int clk_mt6582_topckgen_probe(struct platform_device *pdev)
 	clk_data = mtk_alloc_clk_data(CLK_TOP_NR_CLK);
 	if (!clk_data) return -ENOMEM;
 
-								
 	mtk_clk_register_factors(top_fixed_divs, (int)ARRAY_SIZE(top_fixed_divs), clk_data);
 
-	
-	mtk_clk_register_muxes(&pdev->dev, top_muxes, (int)ARRAY_SIZE(top_muxes), 
+	mtk_clk_register_muxes(&pdev->dev, top_muxes, (int)ARRAY_SIZE(top_muxes),
                        node, &mt6582_top_clk_lock, clk_data);
 
 	return devm_of_clk_add_hw_provider(&pdev->dev, of_clk_hw_onecell_get, clk_data);
@@ -316,4 +316,3 @@ builtin_platform_driver(clk_mt6582_topckgen_drv);
 
 MODULE_DESCRIPTION("MediaTek MT6582 topckgen clocks driver");
 MODULE_LICENSE("GPL");
-

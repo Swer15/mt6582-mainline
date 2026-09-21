@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
- * Copyright (c) 2026 
+ * Copyright (c) 2026
  * Author: Burst_Caster <swer15l23@gmail.com>
  */
  
 /dts-v1/;
-//#include "mt6582-new.dtsi"
 #include "mt6582.dtsi"
 #include <dt-bindings/pinctrl/mt6582-pinfunc.h>
 #include <dt-bindings/input/input.h>
@@ -80,38 +79,38 @@
 	// };
 
 	panel_backlight: backlight {
-        	compatible = "pwm-backlight";
-        	pwms = <&bls 0 20000>; 
-        	// gpios = <&pio 18 GPIO_ACTIVE_HIGH>;
-        	post-pwm-on-delay-ms = <10>;
-        	pwm-off-delay-ms = <10>;
-        	brightness-levels = <
-              		0   4   8  12  16  20  24  28
-             		32  40  48  56  64  72  80  88
-             		96 112 128 144 160 176 192 208
-            		224 240 255 >;
-        	default-brightness-level = <16>; 
+		compatible = "pwm-backlight";
+		pwms = <&bls 0 20000>; 
+		// gpios = <&pio 18 GPIO_ACTIVE_HIGH>;
+		post-pwm-on-delay-ms = <10>;
+		pwm-off-delay-ms = <10>;
+		brightness-levels = <
+			  0   4   8  12  16  20  24  28
+			 32  40  48  56  64  72  80  88
+			 96 112 128 144 160 176 192 208
+			224 240 255 >;
+			default-brightness-level = <16>; 
 		pinctrl-names = "default";
-    		pinctrl-0 = <&backlight_pins>;
-   	};
+		pinctrl-0 = <&backlight_pins>;
+	};
 
 	vcc_3v3_tps: regulator-tps62237 {
-    		compatible = "regulator-fixed";
-    		regulator-name = "vcc-3v3";
-    		regulator-min-microvolt = <3300000>;
-    		regulator-max-microvolt = <3300000>;
+		compatible = "regulator-fixed";
+		regulator-name = "vcc-3v3";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
     
 
 			
-    		// gpios = <&pio 118 GPIO_ACTIVE_HIGH>; 
-    		///enable-active-high;
+		// gpios = <&pio 118 GPIO_ACTIVE_HIGH>; 
+		///enable-active-high;
 
 		// states = <3300000 1>,
-        	// 	<0 0>;
+		// 	 <0 0>;
 
 		// pinctrl-names = "default";
 		// pinctrl-0 = <&panel_pins>;
-		startup_delay = <10000>;
+		startup-delay-us = <10000>;
 		
 		
 	};
@@ -126,7 +125,7 @@
 		interrupt-controller;
 		#interrupt-cells = <2>;
 		pinctrl-names = "default";
-        	pinctrl-0 = <&pmic_int_pins>;
+		pinctrl-0 = <&pmic_int_pins>;
 
 		mt6323_adc: adc {
 			compatible = "mediatek,mt6323-auxadc";
@@ -268,7 +267,7 @@
 				regulator-min-microvolt = <1200000>;
 				regulator-max-microvolt = <3000000>;
 				// regulator-min-microvolt = <2800000>;
-    				// regulator-max-microvolt = <2800000>;
+				// regulator-max-microvolt = <2800000>;
 				regulator-enable-ramp-delay = <216>;
 				regulator-boot-on;
 				regulator-always-on;
@@ -416,7 +415,7 @@
 	status = "okay";
 	
 	dr_mode = "otg";
-	usb-role-switch-default-mode = "peripherial";
+	role-switch-default-mode = "peripheral";
 	usb-role-switch;
 	connector {
 			compatible = "gpio-usb-b-connector", "usb-b-connector";
@@ -453,7 +452,6 @@
 	non-removable;
 	mmc-ddr-1_8v;
 	mmc-hs200-1_8v;
-	non-removable;
 	no-sd;
 	no-sdio;
 	mediatek,latch-ck = <0>;
@@ -475,7 +473,6 @@
 	sd-uhs-sdr50;
 	sd-uhs-sdr104;
 	sd-uhs-ddr50;
-	cap-sd-highspeed;
 	no-mmc;
 	no-sdio;
 	no-write-protect;
@@ -498,17 +495,16 @@
 		reg = <0x5d>;
 		interrupt-parent = <&pio>;
 		interrupts = <10 IRQ_TYPE_EDGE_FALLING>;
-		irq-flags = <2>;
 		irq-gpios = <&pio 10 GPIO_ACTIVE_HIGH>;
-        	reset-gpios = <&pio 13 GPIO_ACTIVE_HIGH>;
+		reset-gpios = <&pio 13 GPIO_ACTIVE_HIGH>;
 		AVDD28-supply = <&mt6323_vgp2_reg>;
 		VDDIO-supply = <&mt6323_vio18_reg>;
 		pinctrl-names = "default";
-    		pinctrl-0 = <&touch_pins_default>; 
+		pinctrl-0 = <&touch_pins_default>; 
 		touchscreen-size-x = <1280>;
-    		touchscreen-size-y = <800>;
+		touchscreen-size-y = <800>;
 
-      	};
+	};
 
 };
 
@@ -522,7 +518,7 @@
 		compatible = "ti,bq27541";
 		reg = <0x55>;
 		// monitored-battery = <&battery>;
-      	};
+	};
 
 	charger: bq24196@6b {
 		compatible = "ti,bq24196";
@@ -533,11 +529,9 @@
 		interrupt-parent = <&pio>;
 		interrupts = <9 IRQ_TYPE_EDGE_FALLING>;
 
-		ti,charge-enable-gpio = <&pio 19 GPIO_ACTIVE_LOW>;
+		ce-gpios = <&pio 19 GPIO_ACTIVE_LOW>;
 
-		ti,system-minimum-voltage-mv = <3200>;
-		ti,input-current-limit-microamp = <2500000>;
-		ti,charge-current-microamp = <2000000>;
+		ti,system-minimum-microvolt = <3200000>;
 
 		usb_otg_vbus: usb-otg-vbus {};
 	};
@@ -562,7 +556,7 @@
 			bias-disable;
 		};
         
-    	};
+	};
 
 	pmic_int_pins: pmic-int {
 		pins {
@@ -571,23 +565,23 @@
 			bias-pull-down; 
 			debounce-interval = <1000>; 
 		};
-    	};
+	};
 
 	msdc1_pins_default: msdc1-default {
 		pins-cmd-dat{
-		 	pinmux = <MT6582_PIN_124_MSDC1_CMD__FUNC_MSDC1_CMD>,
-		 	 	 <MT6582_PIN_126_MSDC1_DAT0__FUNC_MSDC1_DAT0>,
-			 	 <MT6582_PIN_127_MSDC1_DAT1__FUNC_MSDC1_DAT1>,
-		 	 	 <MT6582_PIN_128_MSDC1_DAT2__FUNC_MSDC1_DAT2>,
-		 	 	 <MT6582_PIN_129_MSDC1_DAT3__FUNC_MSDC1_DAT3>;
-		 	input-enable;
-		 	bias-pull-up;
+			pinmux = <MT6582_PIN_124_MSDC1_CMD__FUNC_MSDC1_CMD>,
+				 <MT6582_PIN_126_MSDC1_DAT0__FUNC_MSDC1_DAT0>,
+				 <MT6582_PIN_127_MSDC1_DAT1__FUNC_MSDC1_DAT1>,
+				 <MT6582_PIN_128_MSDC1_DAT2__FUNC_MSDC1_DAT2>,
+				 <MT6582_PIN_129_MSDC1_DAT3__FUNC_MSDC1_DAT3>;
+			input-enable;
+			bias-pull-up;
 
 		};
 		pins-clk {
-		 	pinmux = <MT6582_PIN_125_MSDC1_CLK__FUNC_MSDC1_CLK>;
+			pinmux = <MT6582_PIN_125_MSDC1_CLK__FUNC_MSDC1_CLK>;
 			bias-pull-down;
-		 	drive-strength = <4>;
+			drive-strength = <4>;
 		};
 		sd-detect {
 			pinmux = <MT6582_PIN_14_EINT14__FUNC_GPIO14>;
@@ -598,19 +592,19 @@
 
 	msdc1_pins_uhs: msdc1 {
 		pins-cmd-dat{
-		 	pinmux = <MT6582_PIN_124_MSDC1_CMD__FUNC_MSDC1_CMD>,
-		 	 	 <MT6582_PIN_126_MSDC1_DAT0__FUNC_MSDC1_DAT0>,
-		 	 	 <MT6582_PIN_127_MSDC1_DAT1__FUNC_MSDC1_DAT1>,
-		 	 	 <MT6582_PIN_128_MSDC1_DAT2__FUNC_MSDC1_DAT2>,
-		 		 <MT6582_PIN_129_MSDC1_DAT3__FUNC_MSDC1_DAT3>;
-		 	input-enable;
-		 	bias-pull-up;
-		 	drive-strength = <8>;
+			pinmux = <MT6582_PIN_124_MSDC1_CMD__FUNC_MSDC1_CMD>,
+				 <MT6582_PIN_126_MSDC1_DAT0__FUNC_MSDC1_DAT0>,
+				 <MT6582_PIN_127_MSDC1_DAT1__FUNC_MSDC1_DAT1>,
+				 <MT6582_PIN_128_MSDC1_DAT2__FUNC_MSDC1_DAT2>,
+				 <MT6582_PIN_129_MSDC1_DAT3__FUNC_MSDC1_DAT3>;
+			input-enable;
+			bias-pull-up;
+			drive-strength = <8>;
 		};
 		pins-clk {
-		 	pinmux = <MT6582_PIN_125_MSDC1_CLK__FUNC_MSDC1_CLK>;
-		 	bias-pull-down;
-		 	drive-strength = <12>;
+			pinmux = <MT6582_PIN_125_MSDC1_CLK__FUNC_MSDC1_CLK>;
+			bias-pull-down;
+			drive-strength = <12>;
 		};
 		sd-detect {
 			pinmux = <MT6582_PIN_14_EINT14__FUNC_GPIO14>;
@@ -624,12 +618,12 @@
 			pinmux = <MT6582_PIN_10_EINT10__FUNC_GPIO10>;
 			input-enable;
 			bias-pull-up;
-        	};
+		};
 		pins-reset {
 			pinmux = <MT6582_PIN_13_GPIO13__FUNC_GPIO13>;
 			output-high;
 		};
-    	};
+	};
 
 	bq24196_pins: bq24196-pins {
 		pins_int {
@@ -660,7 +654,7 @@
 		};
 	
 
-    	};
+	};
 };
 
 &mali {
@@ -797,8 +791,6 @@
 		// vcc-supply = <&vcc_3v3_tps>;
 
 		panel-orientation = "normal"; 
-
-		data-lanes = <0 1 2 3>; 
 
 		backlight = <&panel_backlight>;
 		ports {

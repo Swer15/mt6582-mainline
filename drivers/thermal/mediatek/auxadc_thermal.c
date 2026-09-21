@@ -129,6 +129,7 @@
  */
 #define CALIB_BUF0_VALID_V1		BIT(0)
 #define CALIB_BUF1_ADC_GE_V1(x)		(((x) >> 22) & 0x3ff)
+#define CALIB_BUF1_ADC_OE_V1(x)		(((x) >> 12) & 0x3ff)
 #define CALIB_BUF0_VTS_TS1_V1(x)	(((x) >> 17) & 0x1ff)
 #define CALIB_BUF0_VTS_TS2_V1(x)	(((x) >> 8) & 0x1ff)
 #define CALIB_BUF1_VTS_TS3_V1(x)	(((x) >> 0) & 0x1ff)
@@ -168,20 +169,6 @@
 #define CALIB_BUF1_O_SLOPE_SIGN_V3(x)	(((x) >> 19) & 0x1)
 #define CALIB_BUF1_ID_V3(x)		(((x) >> 20) & 0x1)
 
-/*
- * Layout of the fuses providing the calibration data
- * These macros can be used for MT6582.
- */
-#define CALIB_BUF1_ADC_OE_MT6582(x)		(((x) >> 12) & 0x3ff)
-#define CALIB_BUF1_ADC_GE_MT6582(x)		(((x) >> 22) & 0x3ff)
-#define CALIB_BUF0_VTS_TS1_MT6582(x)		(((x) >> 17) & 0x1ff)
-#define CALIB_BUF0_VTS_TS2_MT6582(x)		(((x) >> 8) & 0x1ff)
-#define CALIB_BUF1_VTS_TSABB_MT6582(x)		(((x) >> 0) & 0x1ff)
-#define CALIB_BUF0_DEGC_CALI_MT6582(x)		(((x) >> 1) & 0x3f)
-#define CALIB_BUF0_O_SLOPE_MT6582(x)		(((x) >> 26) & 0x3f)
-#define CALIB_BUF0_O_SLOPE_SIGN_MT6582(x)	(((x) >> 7) & 0x1)
-#define CALIB_BUF1_ID_MT6582(x)			(((x) >> 9) & 0x1)
-
 enum {
 	VTS1,
 	VTS2,
@@ -195,8 +182,7 @@ enum {
 enum mtk_thermal_version {
 	MTK_THERMAL_V1 = 1,
 	MTK_THERMAL_V2,
-	MTK_THERMAL_V3,
-	MTK_THERMAL_MT6582
+	MTK_THERMAL_V3
 };
 
 /* MT2701 thermal sensors */
@@ -239,6 +225,15 @@ enum mtk_thermal_version {
 
 /* The calibration coefficient of sensor  */
 #define MT2712_CALIBRATION	165
+
+/* MT6582 thermal sensors */
+#define MT6582_TS1			0
+#define MT6582_TS2			1
+#define MT6582_TEMP_AUXADC_CHANNEL	11
+#define MT6582_NUM_SENSORS		2
+#define MT6582_NUM_SENSORS_PER_ZONE	2
+#define MT6582_NUM_CONTROLLER		1
+#define MT6582_CALIBRATION		165
 
 #define MT7622_TEMP_AUXADC_CHANNEL	11
 #define MT7622_NUM_SENSORS		1
@@ -340,6 +335,7 @@ struct mtk_thermal_data {
 	u32 apmixed_buffer_ctl_reg;
 	u32 apmixed_buffer_ctl_mask;
 	u32 apmixed_buffer_ctl_set;
+	int (*raw_to_mcelsius)(struct mtk_thermal *mt, int sensno, s32 raw);
 };
 
 struct mtk_thermal {
@@ -448,6 +444,28 @@ static const int mt2712_tc_offset[MT2712_NUM_CONTROLLER] = { 0x0, };
 static const int mt2712_vts_index[MT2712_NUM_SENSORS] = {
 	VTS1, VTS2, VTS3, VTS4
 };
+
+static const int mt6582_bank_data[MT6582_NUM_SENSORS] = {
+	MT6582_TS1, MT6582_TS2
+};
+
+static const int mt6582_msr[MT6582_NUM_SENSORS_PER_ZONE] = {
+	TEMP_MSR0, TEMP_MSR1
+};
+
+static const int mt6582_adcpnp[MT6582_NUM_SENSORS_PER_ZONE] = {
+	TEMP_ADCPNP0, TEMP_ADCPNP1
+};
+
+static const int mt6582_mux_values[MT6582_NUM_SENSORS] = { 0, 1 };
+static const int mt6582_tc_offset[MT6582_NUM_CONTROLLER] = { 0x0 };
+
+static const int mt6582_vts_index[MT6582_NUM_SENSORS] = {
+	VTS1, VTS2
+};
+
+static int raw_to_mcelsius_v1_mt6582(struct mtk_thermal *mt, int sensno,
+				     s32 raw);
 
 /* MT7622 thermal sensor data */
 static const int mt7622_bank_data[MT7622_NUM_SENSORS] = { MT7622_TS1, };
@@ -569,24 +587,28 @@ static const struct mtk_thermal_data mt2701_thermal_data = {
  * data.
  */
 static const struct mtk_thermal_data mt6582_thermal_data = {
-	.auxadc_channel = MT2701_TEMP_AUXADC_CHANNEL,
+	.auxadc_channel = MT6582_TEMP_AUXADC_CHANNEL,
 	.num_banks = 1,
-	.num_sensors = MT2701_NUM_SENSORS,
-	.vts_index = mt2701_vts_index,
-	.cali_val = MT2701_CALIBRATION,
-	.num_controller = MT2701_NUM_CONTROLLER,
-	.controller_offset = mt2701_tc_offset,
+	.num_sensors = MT6582_NUM_SENSORS,
+	.vts_index = mt6582_vts_index,
+	.cali_val = MT6582_CALIBRATION,
+	.num_controller = MT6582_NUM_CONTROLLER,
+	.controller_offset = mt6582_tc_offset,
 	.need_switch_bank = true,
 	.bank_data = {
 		{
-			.num_sensors = 3,
-			.sensors = mt2701_bank_data,
+			.num_sensors = MT6582_NUM_SENSORS_PER_ZONE,
+			.sensors = mt6582_bank_data,
 		},
 	},
-	.msr = mt2701_msr,
-	.adcpnp = mt2701_adcpnp,
-	.sensor_mux_values = mt2701_mux_values,
-	.version = MTK_THERMAL_MT6582,
+	.msr = mt6582_msr,
+	.adcpnp = mt6582_adcpnp,
+	.sensor_mux_values = mt6582_mux_values,
+	.version = MTK_THERMAL_V1,
+	.apmixed_buffer_ctl_reg = APMIXED_SYS_TS_CON0,
+	.apmixed_buffer_ctl_mask = (u32)~GENMASK(7, 6),
+	.apmixed_buffer_ctl_set = 0,
+	.raw_to_mcelsius = raw_to_mcelsius_v1_mt6582,
 };
 
 /*
@@ -769,6 +791,37 @@ static int raw_to_mcelsius_v1(struct mtk_thermal *mt, int sensno, s32 raw)
 	tmp >>= 3;
 
 	return mt->degc_cali * 500 - tmp;
+}
+
+static int raw_to_mcelsius_v1_mt6582(struct mtk_thermal *mt, int sensno,
+				     s32 raw)
+{
+	s32 format_1;
+	s32 format_2;
+	s32 g_oe;
+	s32 g_gain;
+	s32 g_x_roomt;
+	s32 tmp;
+
+	if (raw == 0)
+		return 0;
+
+	raw &= 0xfff;
+
+	g_gain = 10000 + (((mt->adc_ge - 512) * 10000) >> 12);
+	g_oe = mt->adc_oe - 512;
+
+	format_1 = mt->vts[mt->conf->vts_index[sensno]] + 3350 - g_oe;
+	format_2 = (mt->degc_cali * 10) >> 1;
+
+	g_x_roomt = (((format_1 * 10000) >> 12) * 10000) / g_gain;
+
+	tmp = (((((raw - g_oe) * 10000) >> 12) * 10000) / g_gain) -
+	      g_x_roomt;
+	tmp = tmp * 15 * 100 / 18;
+	tmp = tmp / (165 + mt->o_slope);
+
+	return (format_2 - tmp) * 100;
 }
 
 static int raw_to_mcelsius_v2(struct mtk_thermal *mt, int sensno, s32 raw)
@@ -1044,6 +1097,7 @@ static int mtk_thermal_extract_efuse_v1(struct mtk_thermal *mt, u32 *buf)
 		return -EINVAL;
 
 	mt->adc_ge = CALIB_BUF1_ADC_GE_V1(buf[1]);
+	mt->adc_oe = CALIB_BUF1_ADC_OE_V1(buf[1]);
 
 	for (i = 0; i < mt->conf->num_sensors; i++) {
 		switch (mt->conf->vts_index[i]) {
@@ -1117,32 +1171,6 @@ static int mtk_thermal_extract_efuse_v3(struct mtk_thermal *mt, u32 *buf)
 	return 0;
 }
 
-static int mtk_thermal_extract_efuse_mt6582(struct mtk_thermal *mt, u32 *buf)
-{
-	if (!CALIB_BUF1_VALID_V3(buf[1]))
-		return -EINVAL;
-
-	mt->adc_ge = CALIB_BUF1_ADC_GE_MT6582(buf[1]);
-	mt->degc_cali = CALIB_BUF0_DEGC_CALI_MT6582(buf[0]);
-	mt->o_slope = CALIB_BUF0_O_SLOPE_MT6582(buf[0]);
-	mt->vts[VTS1] = CALIB_BUF0_VTS_TS1_MT6582(buf[0]);
-	mt->vts[VTS2] = CALIB_BUF0_VTS_TS2_MT6582(buf[0]);
-	mt->vts[VTSABB] = CALIB_BUF1_VTS_TSABB_MT6582(buf[1]);
-	mt->o_slope_sign = CALIB_BUF0_O_SLOPE_SIGN_MT6582(buf[0]);
-
-	if (CALIB_BUF1_ID_MT6582(buf[1]) &
-	    CALIB_BUF0_O_SLOPE_SIGN_MT6582(buf[0]))
-		mt->o_slope = -CALIB_BUF0_O_SLOPE_MT6582(buf[0]);
-	else
-		mt->o_slope = CALIB_BUF0_O_SLOPE_MT6582(buf[0]);
-
-	// if (CALIB_BUF1_ID_MT6582(buf[1]) == 0)
-	// 	mt->o_slope = 0;
-
-	return 0;
-}
-
-
 static int mtk_thermal_get_calibration_data(struct device *dev,
 					    struct mtk_thermal *mt)
 {
@@ -1188,9 +1216,6 @@ static int mtk_thermal_get_calibration_data(struct device *dev,
 		break;
 	case MTK_THERMAL_V3:
 		ret = mtk_thermal_extract_efuse_v3(mt, buf);
-		break;
-	case MTK_THERMAL_MT6582:
-		ret = mtk_thermal_extract_efuse_mt6582(mt, buf);
 		break;
 	default:
 		ret = -EINVAL;
@@ -1353,7 +1378,9 @@ static int mtk_thermal_probe(struct platform_device *pdev)
 	if (mt->conf->version != MTK_THERMAL_V1)
 		mtk_thermal_release_periodic_ts(mt, auxadc_base);
 
-	if (mt->conf->version == MTK_THERMAL_V1)
+	if (mt->conf->raw_to_mcelsius)
+		mt->raw_to_mcelsius = mt->conf->raw_to_mcelsius;
+	else if (mt->conf->version == MTK_THERMAL_V1)
 		mt->raw_to_mcelsius = raw_to_mcelsius_v1;
 	else if (mt->conf->version == MTK_THERMAL_V2)
 		mt->raw_to_mcelsius = raw_to_mcelsius_v2;

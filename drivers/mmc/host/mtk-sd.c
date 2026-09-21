@@ -450,6 +450,7 @@ struct mtk_mmc_compatible {
 	bool support_new_tx;
 	bool support_new_rx;
 	bool support_spm_res_release;
+	bool dma_boundary_2k;
 };
 
 struct msdc_tune_para {
@@ -565,6 +566,7 @@ static const struct mtk_mmc_compatible mt6582_compat = {
 	.enhance_rx = false,
 	.support_64g = false,
 	.use_internal_cd = true,
+	.dma_boundary_2k = true,
 };
 
 static const struct mtk_mmc_compatible mt6779_compat = {
@@ -814,10 +816,34 @@ static u8 msdc_dma_calcs(u8 *buf, u32 len)
 	return 0xff - (u8) sum;
 }
 
+static void msdc_dma_set_bd(struct msdc_host *host,
+			    struct mt_bdma_desc *bd,
+			    dma_addr_t dma_address, u32 dma_len)
+{
+	bd->bd_info &= ~(BDMA_DESC_BLKPAD | BDMA_DESC_DWPAD |
+			 BDMA_DESC_EOL | BDMA_DESC_CHECKSUM |
+			 BDMA_DESC_PTR_H4);
+	bd->ptr = lower_32_bits(dma_address);
+
+	if (host->dev_comp->support_64g)
+		bd->bd_info |= (upper_32_bits(dma_address) & 0xf) << 28;
+
+	if (host->dev_comp->support_64g) {
+		bd->bd_data_len &= ~BDMA_DESC_BUFLEN_EXT;
+		bd->bd_data_len |= dma_len & BDMA_DESC_BUFLEN_EXT;
+	} else {
+		bd->bd_data_len &= ~BDMA_DESC_BUFLEN;
+		bd->bd_data_len |= dma_len & BDMA_DESC_BUFLEN;
+	}
+
+	bd->bd_info |= msdc_dma_calcs((u8 *)bd, 16) << 8;
+}
+
 static inline void msdc_dma_setup(struct msdc_host *host, struct msdc_dma *dma,
 		struct mmc_data *data)
 {
-	unsigned int j, dma_len;
+	unsigned int j, bd_idx = 0, dma_len;
+	u32 first_len;
 	dma_addr_t dma_address;
 	u32 dma_ctrl;
 	struct scatterlist *sg;
@@ -841,33 +867,32 @@ static inline void msdc_dma_setup(struct msdc_host *host, struct msdc_dma *dma,
 		dma_address = sg_dma_address(sg);
 		dma_len = sg_dma_len(sg);
 
-		/* init bd */
-		bd[j].bd_info &= ~BDMA_DESC_BLKPAD;
-		bd[j].bd_info &= ~BDMA_DESC_DWPAD;
-		bd[j].ptr = lower_32_bits(dma_address);
-		if (host->dev_comp->support_64g) {
-			bd[j].bd_info &= ~BDMA_DESC_PTR_H4;
-			bd[j].bd_info |= (upper_32_bits(dma_address) & 0xf)
-					 << 28;
+		/*
+		 * MT6582 has a DMA erratum where a BD must not cross a
+		 * 2KiB boundary. Split the affected segment so the next
+		 * BD starts exactly at the next 2KiB boundary.
+		 */
+		if (host->dev_comp->dma_boundary_2k &&
+		    dma_len > 2048 - (dma_address & 0x7ff)) {
+			first_len = 2048 - (dma_address & 0x7ff);
+
+			msdc_dma_set_bd(host, &bd[bd_idx],
+					dma_address, first_len);
+			bd_idx++;
+
+			dma_address += first_len;
+			dma_len -= first_len;
 		}
 
-		if (host->dev_comp->support_64g) {
-			bd[j].bd_data_len &= ~BDMA_DESC_BUFLEN_EXT;
-			bd[j].bd_data_len |= (dma_len & BDMA_DESC_BUFLEN_EXT);
-		} else {
-			bd[j].bd_data_len &= ~BDMA_DESC_BUFLEN;
-			bd[j].bd_data_len |= (dma_len & BDMA_DESC_BUFLEN);
-		}
-
-		if (j == data->sg_count - 1) /* the last bd */
-			bd[j].bd_info |= BDMA_DESC_EOL;
-		else
-			bd[j].bd_info &= ~BDMA_DESC_EOL;
-
-		/* checksum need to clear first */
-		bd[j].bd_info &= ~BDMA_DESC_CHECKSUM;
-		bd[j].bd_info |= msdc_dma_calcs((u8 *)(&bd[j]), 16) << 8;
+		msdc_dma_set_bd(host, &bd[bd_idx],
+				dma_address, dma_len);
+		bd_idx++;
 	}
+
+	bd[bd_idx - 1].bd_info |= BDMA_DESC_EOL;
+	bd[bd_idx - 1].bd_info &= ~BDMA_DESC_CHECKSUM;
+	bd[bd_idx - 1].bd_info |=
+		msdc_dma_calcs((u8 *)&bd[bd_idx - 1], 16) << 8;
 
 	sdr_set_field(host->base + MSDC_DMA_CFG, MSDC_DMA_CFG_DECSEN, 1);
 	dma_ctrl = readl_relaxed(host->base + MSDC_DMA_CTRL);
@@ -3112,7 +3137,10 @@ static int msdc_drv_probe(struct platform_device *pdev)
 	if (host->cqhci)
 		mmc->caps2 |= MMC_CAP2_CQE | MMC_CAP2_CQE_DCMD;
 	/* MMC core transfer sizes tunable parameters */
-	mmc->max_segs = MAX_BD_NUM;
+	if (host->dev_comp->dma_boundary_2k)
+		mmc->max_segs = MAX_BD_NUM / 2;
+	else
+		mmc->max_segs = MAX_BD_NUM;
 	if (host->dev_comp->support_64g)
 		mmc->max_seg_size = BDMA_DESC_BUFLEN_EXT;
 	else

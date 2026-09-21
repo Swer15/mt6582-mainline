@@ -230,9 +230,9 @@ void mtk_ovl_enable_vblank(struct device *dev)
 
 	writel(0x0, ovl->regs + DISP_REG_OVL_INTSTA);
 	writel_relaxed(OVL_FME_CPL_INT | OVL_FME_UND_INT |
-	               OVL_RDMA0_EOF_ABNORMAL_INT | OVL_RDMA1_EOF_ABNORMAL_INT |
-	               OVL_RDMA0_FIFO_UND_INT | OVL_RDMA1_FIFO_UND_INT,
-	               ovl->regs + DISP_REG_OVL_INTEN);
+		       OVL_RDMA0_EOF_ABNORMAL_INT | OVL_RDMA1_EOF_ABNORMAL_INT |
+		       OVL_RDMA0_FIFO_UND_INT | OVL_RDMA1_FIFO_UND_INT,
+		       ovl->regs + DISP_REG_OVL_INTEN);
 }
 
 void mtk_ovl_disable_vblank(struct device *dev)
