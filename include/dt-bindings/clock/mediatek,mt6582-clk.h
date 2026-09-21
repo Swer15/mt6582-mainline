@@ -65,9 +65,9 @@
 #define CLK_TOP_MFG_SEL				41
 #define CLK_TOP_CAMTG_SEL			42
 #define CLK_TOP_UART_SEL			43
-#define CLK_TOP_SPI_SEL			    	44
+#define CLK_TOP_SPI_SEL				44
 #define CLK_TOP_USB20_SEL			45
-#define CLK_TOP_MSDC30_0_SEL	    		46
+#define CLK_TOP_MSDC30_0_SEL			46
 #define CLK_TOP_MSDC30_1_SEL			47
 #define CLK_TOP_MSDC30_2_SEL			48
 #define CLK_TOP_AUDIO_SEL			49
@@ -75,7 +75,7 @@
 #define CLK_TOP_PMICSPI_SEL			51
 #define CLK_TOP_SCP_SEL				52
 
-#define CLK_TOP_NR_CLK			    	53
+#define CLK_TOP_NR_CLK				53
 
 
 /* APMIXEDSYS */
@@ -86,8 +86,8 @@
 #define CLK_APMIXED_MMPLL			3
 #define CLK_APMIXED_MSDCPLL			4
 
-#define CLK_APMIXED_UNIV48M         		5
-#define CLK_APMIXED_USB48M          		6
+#define CLK_APMIXED_UNIV48M			5
+#define CLK_APMIXED_USB48M			6
 
 
 #define CLK_APMIXED_NR_CLK			7
@@ -107,9 +107,9 @@
 #define CLK_INFRA_EFUSE				3
 #define CLK_INFRA_L2C_SRAM			4
 #define CLK_INFRA_M4U				5
-#define CLK_INFRA_MD1_CR4_AXI       		6
-#define CLK_INFRA_MD1_HWMIX_AXI     		7
-#define CLK_INFRA_MD1_AHB           		8
+#define CLK_INFRA_MD1_CR4_AXI			6
+#define CLK_INFRA_MD1_HWMIX_AXI			7
+#define CLK_INFRA_MD1_AHB			8
 #define CLK_INFRA_CONNMCU			9
 #define CLK_INFRA_TRNG				10
 #define CLK_INFRA_RAMBUFIF			11
@@ -118,8 +118,8 @@
 #define CLK_INFRA_CCIF0_AP_CTRL 		14
 #define CLK_INFRA_PMICWRAP			15
 
-#define CLK_INFRA_CLK_13M           		16
-#define CLK_INFRA_CPUSEL            		17
+#define CLK_INFRA_CLK_13M			16
+#define CLK_INFRA_CPUSEL			17
 
 #define CLK_INFRA_NR_CLK			18
 
@@ -143,7 +143,7 @@
 #define CLK_PERI_USB0				15
 #define CLK_PERI_PWM				16
 #define CLK_PERI_PWM7				17
-#define CLK_PERI_PWM6			    	18
+#define CLK_PERI_PWM6				18
 #define CLK_PERI_PWM5				19
 #define CLK_PERI_PWM4				20
 #define CLK_PERI_PWM3				21
@@ -152,7 +152,7 @@
 #define CLK_PERI_THERM				24
 #define CLK_PERI_NFI				25
 #define CLK_PERI_UART_SEL			26
-#define CLK_PERI_NR_CLK			    	27
+#define CLK_PERI_NR_CLK				27
 
 
 /* MMSYS */
@@ -190,13 +190,13 @@
 
 /* IMG */
 
-#define CLK_IMG_LARB2_SMI       		0
-#define CLK_IMG_SMI             		1
-#define CLK_IMG_CAM             		2
-#define CLK_IMG_SEN_TG          		3
-#define CLK_IMG_SEN_CAM         		4
-#define CLK_IMG_VENC_JPEGENC    		5
-#define CLK_IMG_NR_CLK          		6
+#define CLK_IMG_LARB2_SMI			0
+#define CLK_IMG_SMI				1
+#define CLK_IMG_CAM				2
+#define CLK_IMG_SEN_TG				3
+#define CLK_IMG_SEN_CAM				4
+#define CLK_IMG_VENC_JPEGENC			5
+#define CLK_IMG_NR_CLK				6
 
 /* VDEC */
 
