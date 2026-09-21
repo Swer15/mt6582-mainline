@@ -214,14 +214,14 @@
 
 		topckgen: syscon@10000000 {
 			compatible = "mediatek,mt6582-topckgen",
-			     	"syscon";
+				     "syscon";
 			reg = <0x10000000 0x1000>;
 			#clock-cells = <1>;
 		};
- 		
+		
 		infracfg: syscon@10001000 {
 			compatible = "mediatek,mt6582-infracfg",
-			     	"syscon";
+				     "syscon";
 			reg = <0x10001000 0x1000>;
 			#clock-cells = <1>;
 			#reset-cells = <1>;
@@ -230,25 +230,25 @@
 
 		pericfg: syscon@10003000 {
 			compatible = "mediatek,mt6582-pericfg",
-			      	"syscon";
+				     "syscon";
 			reg = <0x10003000 0x1000>;
 			#clock-cells = <1>;
 			#reset-cells = <1>;
 		};
 		
 		pio: pinctrl@10005000 {
-    			compatible = "mediatek,mt6582-pinctrl";
-    			reg = <0x10005000 0x1000>,
+			compatible = "mediatek,mt6582-pinctrl";
+			reg = <0x10005000 0x1000>,
 				  <0x1000b000 0x1000>;
 			reg-names = "gpio", "eint";
     			#pinctrl-cells = <1>;
 			gpio-ranges = <&pio 0 0 168>; 
 			gpio-controller;
 			#gpio-cells = <2>;
-    			interrupt-controller;
+			interrupt-controller;
     			#interrupt-cells = <2>;
-    			interrupt-parent = <&gic>;
-    			interrupts = <GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH>,
+			interrupt-parent = <&gic>;
+			interrupts = <GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH>,
 					 <GIC_SPI 114 IRQ_TYPE_LEVEL_HIGH>;
 		};
 
@@ -326,16 +326,16 @@
 			resets = <&infracfg INFRA_RST0_PMIC_WRAP_RST>;
 			reset-names = "pwrap";
 			clocks = <&topckgen CLK_TOP_PMICSPI_SEL>,
-			 	<&infracfg CLK_INFRA_PMICWRAP>;
+				 <&infracfg CLK_INFRA_PMICWRAP>;
 			clock-names = "spi", "wrap";
 			mediatek,syscon = <&infracfg>;
-        		pinctrl-names = "default";
-        		pinctrl-0 = <&pwrap_pins_default>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pwrap_pins_default>;
 		};
 		/* vencpll */
 		ddrphy: syscon@1000f000 {
 			compatible = "mediatek,mt6582-ddrphy",
-			     	"syscon";
+				     "syscon";
 			reg = <0x1000f000 0x1000>;
 			#clock-cells = <1>;
 		};
@@ -356,7 +356,7 @@
 			interrupts = <GIC_SPI 116 IRQ_TYPE_EDGE_FALLING>;
 			clocks = <&infracfg CLK_INFRA_KP>;
 			clock-names = "kpd";
-        	};
+		};
 
 		sysirq: interrupt-controller@10200100 {
 			compatible = "mediatek,mt6582-sysirq", "mediatek,mt6577-sysirq";
@@ -398,7 +398,7 @@
 
 		apmixedsys: syscon@10209000 {
 			compatible = "mediatek,mt6582-apmixedsys",
-			     	"syscon";
+				     "syscon";
 			reg = <0x10209000 0x1000>;
 			#clock-cells = <1>;
 		};
@@ -649,7 +649,7 @@
 			mediatek,gce-client-reg = <&gce SUBSYS_14XXXXXX 0x8000 0x1000>;
 		};
 
-		wdma: 	wdma@14009000 {
+		wdma: wdma@14009000 {
 			compatible = "mediatek,mt2701-disp-wdma",
 				"mediatek,mt2701-disp-wdma";
 			reg = <0x14009000 0x1000>;
@@ -863,7 +863,7 @@
 			bias-disable;
 		};
         
-    	};
+	};
 
 	pmic_int_pins: pmic-int {
 		pins {
@@ -872,7 +872,7 @@
 			bias-pull-down; 
 			debounce-interval = <1000>; 
 		};
-    	};
-	
+	};
+
 
 };

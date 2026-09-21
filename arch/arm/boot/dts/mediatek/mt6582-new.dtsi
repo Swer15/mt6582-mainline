@@ -119,15 +119,15 @@
 
 		topckgen: syscon@10000000 {
 			compatible = "mediatek,mt6582-topckgen",
-			     	"syscon";
+				     "syscon";
 			reg = <0x10000000 0x1000>;
 			#clock-cells = <1>;
 			//clocks = <&CLK_TOP_CLK26M>;
 		};
- 		
+		
 		infracfg: syscon@10001000 {
 			compatible = "mediatek,mt6582-infracfg",
-			     	"syscon";
+				     "syscon";
 			reg = <0x10001000 0x1000>;
 			#clock-cells = <1>;
 			#reset-cells = <1>;
@@ -137,25 +137,25 @@
 
 		pericfg: syscon@10003000 {
 			compatible = "mediatek,mt6582-pericfg",
-			      	"syscon";
+				     "syscon";
 			reg = <0x10003000 0x1000>;
 			#clock-cells = <1>;
 			#reset-cells = <1>;
 		};
 		
 		pio: pinctrl@10005000 {
-    			compatible = "mediatek,mt6582-pinctrl";
-    			reg = <0x10005000 0x1000>,
+			compatible = "mediatek,mt6582-pinctrl";
+			reg = <0x10005000 0x1000>,
 				  <0x1000b000 0x1000>;
 			reg-names = "gpio", "eint";
     			#pinctrl-cells = <1>;
 			gpio-ranges = <&pio 0 0 168>; 
 			gpio-controller;
 			#gpio-cells = <2>;
-    			interrupt-controller;
+			interrupt-controller;
     			#interrupt-cells = <2>;
-    			interrupt-parent = <&gic>;
-    			interrupts = <GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH>,
+			interrupt-parent = <&gic>;
+			interrupts = <GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH>,
 					 <GIC_SPI 114 IRQ_TYPE_LEVEL_HIGH>;
 		};
 
@@ -180,16 +180,16 @@
 			resets = <&infracfg INFRA_RST0_PMIC_WRAP_RST>;
 			reset-names = "pwrap";
 			clocks = <&topckgen CLK_TOP_PMICSPI_SEL>,
-			 	<&infracfg CLK_INFRA_PMICWRAP>;
+				 <&infracfg CLK_INFRA_PMICWRAP>;
 			clock-names = "spi", "wrap";
 			mediatek,syscon = <&infracfg>;
-        		pinctrl-names = "default";
-        		pinctrl-0 = <&pwrap_pins_default>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pwrap_pins_default>;
 		};
 		/* vencpll */
 		ddrphy: syscon@1000f000 {
 			compatible = "mediatek,mt6582-ddrphy",
-			     	"syscon";
+				     "syscon";
 			reg = <0x1000f000 0x1000>;
 			#clock-cells = <1>;
 		};
@@ -204,7 +204,7 @@
 
 		apmixedsys: syscon@10209000 {
 			compatible = "mediatek,mt6582-apmixedsys",
-			     	"syscon";
+				     "syscon";
 			reg = <0x10209000 0x1000>;
 			#clock-cells = <1>;
 		};
@@ -345,7 +345,7 @@
 			reset-names = "hrst";
 			status = "disabled";
 		};
-    	};
+	};
 };
 
 &pio {
