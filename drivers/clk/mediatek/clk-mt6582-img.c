@@ -22,7 +22,7 @@ static const struct mtk_gate_regs img_cg_regs = {
 	GATE_MTK(_id, _name, _parent, &img_cg_regs, _shift, &mtk_clk_gate_ops_setclr)
 
 static const struct mtk_gate img_clks[] = {
-    	GATE_IMG(CLK_IMG_LARB2_SMI, "img_larb2_smi", "mm_sel", 0),
+	GATE_IMG(CLK_IMG_LARB2_SMI, "img_larb2_smi", "mm_sel", 0),
 	GATE_IMG(CLK_IMG_SMI, "img_smi", "mm_sel", 5),
 	GATE_IMG(CLK_IMG_CAM, "img_cam", "mm_sel", 6),
 	GATE_IMG(CLK_IMG_SEN_TG, "img_sen_tg", "mm_sel", 7),
