@@ -532,8 +532,9 @@
 		interrupt-parent = <&pio>;
 		interrupts = <9 IRQ_TYPE_EDGE_FALLING>;
 
-		ti,charge-enable-gpio = <&pio 19 GPIO_ACTIVE_LOW>;
+		ce-gpios = <&pio 19 GPIO_ACTIVE_LOW>;
 
+		/* Unallowed properties */
 		ti,system-minimum-voltage-mv = <3200>;
 		ti,input-current-limit-microamp = <2500000>;
 		ti,charge-current-microamp = <2000000>;
