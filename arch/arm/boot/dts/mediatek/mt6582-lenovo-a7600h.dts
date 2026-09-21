@@ -416,7 +416,7 @@
 	status = "okay";
 	
 	dr_mode = "otg";
-	usb-role-switch-default-mode = "peripherial";
+	role-switch-default-mode = "peripheral";
 	usb-role-switch;
 	connector {
 			compatible = "gpio-usb-b-connector", "usb-b-connector";
