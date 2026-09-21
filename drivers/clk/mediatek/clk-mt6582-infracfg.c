@@ -54,6 +54,7 @@ static const struct mtk_gate infra_gates[] = {
 	GATE_ICG(CLK_INFRA_MD1_AHB, "md1_ahb", "axi_sel", 11),
 	GATE_ICG(CLK_INFRA_CONNMCU, "connsys_bus", "axi_sel", 12),
 	GATE_ICG(CLK_INFRA_TRNG, "trng", "axi_sel", 13),
+	GATE_DUMMY(CLK_INFRA_RAMBUFIF, "rambufif"),
 	GATE_ICG(CLK_INFRA_CPUM, "cpum", "mem_sel", 15),
 	GATE_ICG(CLK_INFRA_KP, "kp", "axi_sel", 16),
 	GATE_ICG(CLK_INFRA_CCIF0_AP_CTRL, "ccif0", "axi_sel", 20),
