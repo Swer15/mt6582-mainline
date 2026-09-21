@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
- * Copyright (c) 2026 
+ * Copyright (c) 2026
  * Author: Burst_Caster <swer15l23@gmail.com>
  */
 
@@ -102,10 +102,10 @@ static const struct mtk_clk_rst_desc clk_rst_desc = {
 };
 
 static const struct of_device_id of_match_clk_mt6582_pericfg[] = {
-	{ 
-		.compatible = "mediatek,mt6582-pericfg" 
-	}, { 
-		/* sentinel */ 
+	{
+		.compatible = "mediatek,mt6582-pericfg"
+	}, {
+		/* sentinel */
 	}
 };
 MODULE_DEVICE_TABLE(of, of_match_clk_mt6582_pericfg);

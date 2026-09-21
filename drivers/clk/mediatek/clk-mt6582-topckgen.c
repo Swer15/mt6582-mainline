@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
- * Copyright (c) 2026 
+ * Copyright (c) 2026
  * Author: Burst_Caster <swer15l23@gmail.com>
  */
 
@@ -64,7 +64,6 @@ static const struct mtk_fixed_factor top_fixed_divs[] = {
 	FACTOR(CLK_TOP_DMPLL_D2, "dmpll_d2", "dmpll_ck", 1, 2),
 	FACTOR(CLK_TOP_DMPLL_D4, "dmpll_d4", "dmpll_ck", 1, 4),
 	FACTOR(CLK_TOP_DMPLL_X2, "dmpll_x2", "dmpll", 2, 1),
-	
 };
 
 
@@ -268,7 +267,6 @@ static const struct mtk_mux top_muxes[] = {
 		0x0080, 0, 4, 7, CLK_IS_CRITICAL | CLK_SET_RATE_PARENT),
 	TOP_MUX_GATE(CLK_TOP_SCP_SEL, "scp_sel", scp_parents,
 		0x0080, 8, 2, 15, 0),
-	
 };
 
 
@@ -287,11 +285,9 @@ static int clk_mt6582_topckgen_probe(struct platform_device *pdev)
 	clk_data = mtk_alloc_clk_data(CLK_TOP_NR_CLK);
 	if (!clk_data) return -ENOMEM;
 
-								
 	mtk_clk_register_factors(top_fixed_divs, (int)ARRAY_SIZE(top_fixed_divs), clk_data);
 
-	
-	mtk_clk_register_muxes(&pdev->dev, top_muxes, (int)ARRAY_SIZE(top_muxes), 
+	mtk_clk_register_muxes(&pdev->dev, top_muxes, (int)ARRAY_SIZE(top_muxes),
                        node, &mt6582_top_clk_lock, clk_data);
 
 	return devm_of_clk_add_hw_provider(&pdev->dev, of_clk_hw_onecell_get, clk_data);
@@ -316,4 +312,3 @@ builtin_platform_driver(clk_mt6582_topckgen_drv);
 
 MODULE_DESCRIPTION("MediaTek MT6582 topckgen clocks driver");
 MODULE_LICENSE("GPL");
-

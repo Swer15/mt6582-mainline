@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
- * Copyright (c) 2026 
+ * Copyright (c) 2026
  * Author: Burst_Caster <swer15l23@gmail.com>
  */
- 
+
 #include "clk-gate.h"
 #include <linux/clk-provider.h>
 #include <linux/platform_device.h>
@@ -69,7 +69,7 @@ static int clk_mt6582_apmixed_probe(struct platform_device *pdev)
 		goto unregister_plls;
 	}
 
-	mtk_clk_register_factors(apmixed_factors, 
+	mtk_clk_register_factors(apmixed_factors,
 				 ARRAY_SIZE(apmixed_factors), clk_data);
 
 	return 0;
@@ -92,7 +92,7 @@ static void clk_mt6582_apmixed_remove(struct platform_device *pdev)
 }
 
 static const struct of_device_id of_match_clk_mt6582_apmixed[] = {
-	{ 
+	{
 		.compatible = "mediatek,mt6582-apmixedsys"
 	}, {
 		/* sentinel */
@@ -158,7 +158,7 @@ static void clk_mt6582_ddrphy_remove(struct platform_device *pdev)
 }
 
 static const struct of_device_id of_match_clk_mt6582_ddrphy[] = {
-	{ 
+	{
 		.compatible = "mediatek,mt6582-ddrphy"
 	}, {
 		/* sentinel */

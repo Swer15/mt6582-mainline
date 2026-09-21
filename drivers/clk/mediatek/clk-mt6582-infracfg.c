@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
- * Copyright (c) 2026 
+ * Copyright (c) 2026
  * Author: Burst_Caster <swer15l23@gmail.com>
  */
- 
+
 #include <dt-bindings/clock/mediatek,mt6582-clk.h>
 #include <dt-bindings/reset/mediatek,mt6582-resets.h>
 #include <linux/module.h>
@@ -41,7 +41,7 @@ static const struct mtk_composite cpu_muxes[] = {
 };
 
 
-   
+
 static const struct mtk_gate infra_gates[] = {
 	GATE_ICG(CLK_INFRA_DBG, "dbgclk", "axi_sel", 0),
 	GATE_ICG(CLK_INFRA_SMI, "smi", "mm_sel", 1),
@@ -58,7 +58,7 @@ static const struct mtk_gate infra_gates[] = {
 	GATE_ICG(CLK_INFRA_KP, "kp", "axi_sel", 16),
 	GATE_ICG(CLK_INFRA_CCIF0_AP_CTRL, "ccif0", "axi_sel", 20),
 	GATE_ICG(CLK_INFRA_PMICWRAP, "pmicwrap", "clk26m", 23),
-};     
+};
 
 
 
@@ -91,7 +91,7 @@ static u16 infra_idx_map[] = {
 
 static const struct mtk_clk_rst_desc infra_rst_desc = {
 	.version = MTK_RST_SIMPLE,
-	.rst_bank_ofs = infrasys_rst_ofs, 
+	.rst_bank_ofs = infrasys_rst_ofs,
 	.rst_bank_nr = ARRAY_SIZE(infrasys_rst_ofs),
 	.rst_idx_map = infra_idx_map,
 	.rst_idx_map_nr = ARRAY_SIZE(infra_idx_map),
@@ -99,10 +99,10 @@ static const struct mtk_clk_rst_desc infra_rst_desc = {
 
 
 static const struct of_device_id of_match_clk_mt6582_infracfg[] = {
-	{ 
-		.compatible = "mediatek,mt6582-infracfg" 
-	}, { 
-		/* sentinel */ 
+	{
+		.compatible = "mediatek,mt6582-infracfg"
+	}, {
+		/* sentinel */
 	}
 };
 MODULE_DEVICE_TABLE(of, of_match_clk_mt6582_infracfg);
