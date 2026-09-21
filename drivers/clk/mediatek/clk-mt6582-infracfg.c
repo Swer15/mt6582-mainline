@@ -127,6 +127,9 @@ static int clk_mt6582_infracfg_probe(struct platform_device *pdev)
 	if (ret)
 		goto free_clk_data;
 
+	mtk_clk_register_factors(infra_fixed_divs,
+				 ARRAY_SIZE(infra_fixed_divs), clk_data);
+
 	ret = mtk_clk_register_gates(&pdev->dev, node, infra_gates,
 				     ARRAY_SIZE(infra_gates), clk_data);
 	if (ret)
