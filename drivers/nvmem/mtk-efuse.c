@@ -42,7 +42,7 @@ static int mtk_reg_read(void *context,
 		}
 
 		return 0;
-        }
+	}
 
 	for (i = 0; i < bytes; i++, val++)
 		*val = readb(addr + i);
