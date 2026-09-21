@@ -72,6 +72,8 @@ static int clk_mt6582_apmixed_probe(struct platform_device *pdev)
 	mtk_clk_register_factors(apmixed_factors,
 				 ARRAY_SIZE(apmixed_factors), clk_data);
 
+	platform_set_drvdata(pdev, clk_data);
+
 	return 0;
 
 unregister_plls:
@@ -137,6 +139,8 @@ static int clk_mt6582_ddrphy_probe(struct platform_device *pdev)
 		dev_err(&pdev->dev, "Cannot register clock provider: %d\n", r);
 		goto unregister_plls;
 	}
+
+	platform_set_drvdata(pdev, clk_data);
 
 	return 0;
 
