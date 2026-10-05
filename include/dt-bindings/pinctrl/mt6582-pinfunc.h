@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
- * Copyright (c) 2026 
+ * Copyright (c) 2026
  * Author: Burst_Caster <swer15l23@gmail.com>
  */
- 
+
 #ifndef __DTS_MT6582_PINFUNC_H
 #define __DTS_MT6582_PINFUNC_H
 

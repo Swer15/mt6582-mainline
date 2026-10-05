@@ -579,21 +579,21 @@ static const struct mtk_smi_larb_gen mtk_smi_larb_mt2712 = {
 
 static const struct mtk_smi_larb_gen mtk_smi_larb_mt6572 = {
 	/* larb0 has 16 ports */
-  .port_in_larb = { 0, 16 },
-  .config_port = mtk_smi_larb_config_port_gen0,
-  .flags_general = MTK_SMI_FLAG_BW_CALIBRATE,
-  .ostd = mtk_smi_larb_mt6572_ostd,
+	.port_in_larb = { 0, 16 },
+	.config_port = mtk_smi_larb_config_port_gen0,
+	.flags_general = MTK_SMI_FLAG_BW_CALIBRATE,
+	.ostd = mtk_smi_larb_mt6572_ostd,
 };
 
 static const struct mtk_smi_larb_gen mtk_smi_larb_mt6582 = {
-  .port_in_larb = {
+	.port_in_larb = {
 		MT6582_LARB0_PORT_OFFSET, MT6582_LARB1_PORT_OFFSET,
 		MT6582_LARB2_PORT_OFFSET
 	},
-  .config_port = mtk_smi_larb_config_port_gen0,
-//   .config_port = mtk_smi_larb_config_port_gen1,
-  .flags_general = MTK_SMI_FLAG_BW_CALIBRATE,
-  .ostd = mtk_smi_larb_mt6582_ostd,
+	.config_port = mtk_smi_larb_config_port_gen0,
+	//.config_port = mtk_smi_larb_config_port_gen1,
+	.flags_general = MTK_SMI_FLAG_BW_CALIBRATE,
+	.ostd = mtk_smi_larb_mt6582_ostd,
 };
 
 static const struct mtk_smi_larb_gen mtk_smi_larb_mt6779 = {

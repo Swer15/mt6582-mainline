@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
- * Copyright (c) 2026 
+ * Copyright (c) 2026
  * Author: Burst_Caster <swer15l23@gmail.com>
  */
- 
+
 #include <dt-bindings/clock/mediatek,mt6582-clk.h>
 #include <dt-bindings/reset/mediatek,mt6582-resets.h>
 #include <linux/module.h>
@@ -41,7 +41,7 @@ static const struct mtk_composite cpu_muxes[] = {
 };
 
 
-   
+
 static const struct mtk_gate infra_gates[] = {
 	GATE_ICG(CLK_INFRA_DBG, "dbgclk", "axi_sel", 0),
 	GATE_ICG(CLK_INFRA_SMI, "smi", "mm_sel", 1),
@@ -54,11 +54,12 @@ static const struct mtk_gate infra_gates[] = {
 	GATE_ICG(CLK_INFRA_MD1_AHB, "md1_ahb", "axi_sel", 11),
 	GATE_ICG(CLK_INFRA_CONNMCU, "connsys_bus", "axi_sel", 12),
 	GATE_ICG(CLK_INFRA_TRNG, "trng", "axi_sel", 13),
+	GATE_DUMMY(CLK_INFRA_RAMBUFIF, "rambufif"),
 	GATE_ICG(CLK_INFRA_CPUM, "cpum", "mem_sel", 15),
 	GATE_ICG(CLK_INFRA_KP, "kp", "axi_sel", 16),
 	GATE_ICG(CLK_INFRA_CCIF0_AP_CTRL, "ccif0", "axi_sel", 20),
 	GATE_ICG(CLK_INFRA_PMICWRAP, "pmicwrap", "clk26m", 23),
-};     
+};
 
 
 
@@ -91,7 +92,7 @@ static u16 infra_idx_map[] = {
 
 static const struct mtk_clk_rst_desc infra_rst_desc = {
 	.version = MTK_RST_SIMPLE,
-	.rst_bank_ofs = infrasys_rst_ofs, 
+	.rst_bank_ofs = infrasys_rst_ofs,
 	.rst_bank_nr = ARRAY_SIZE(infrasys_rst_ofs),
 	.rst_idx_map = infra_idx_map,
 	.rst_idx_map_nr = ARRAY_SIZE(infra_idx_map),
@@ -99,10 +100,10 @@ static const struct mtk_clk_rst_desc infra_rst_desc = {
 
 
 static const struct of_device_id of_match_clk_mt6582_infracfg[] = {
-	{ 
-		.compatible = "mediatek,mt6582-infracfg" 
-	}, { 
-		/* sentinel */ 
+	{
+		.compatible = "mediatek,mt6582-infracfg"
+	}, {
+		/* sentinel */
 	}
 };
 MODULE_DEVICE_TABLE(of, of_match_clk_mt6582_infracfg);
@@ -127,6 +128,9 @@ static int clk_mt6582_infracfg_probe(struct platform_device *pdev)
 	if (ret)
 		goto free_clk_data;
 
+	mtk_clk_register_factors(infra_fixed_divs,
+				 ARRAY_SIZE(infra_fixed_divs), clk_data);
+
 	ret = mtk_clk_register_gates(&pdev->dev, node, infra_gates,
 				     ARRAY_SIZE(infra_gates), clk_data);
 	if (ret)
@@ -140,6 +144,8 @@ static int clk_mt6582_infracfg_probe(struct platform_device *pdev)
 	ret = of_clk_add_hw_provider(node, of_clk_hw_onecell_get, clk_data);
 	if (ret)
 		goto unregister_cpumuxes;
+
+	platform_set_drvdata(pdev, clk_data);
 
 	return 0;
 

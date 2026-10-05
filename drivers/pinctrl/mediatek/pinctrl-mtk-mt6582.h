@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
- * Copyright (c) 2026 
+ * Copyright (c) 2026
  * Author: Burst_Caster <swer15l23@gmail.com>
  */
- 
+
 #ifndef __PINCTRL_MTK_MT6582_H
 #define __PINCTRL_MTK_MT6582_H
 
@@ -12,7 +12,7 @@
 
 static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 	MTK_PIN(
- 	 	0, "EINT0",
+		0, "EINT0",
 		MTK_EINT_FUNCTION(0, 0),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO0"),
@@ -22,7 +22,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(6, "DSPJTD")
 	),
 	MTK_PIN(
- 	 	1, "EINT1",
+		1, "EINT1",
 		MTK_EINT_FUNCTION(0, 1),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO1"),
@@ -33,7 +33,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(5, "CONN_MCU_TDO")
 	),
 	MTK_PIN(
- 	 	2, "EINT2",
+		2, "EINT2",
 		MTK_EINT_FUNCTION(0, 2),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO2"),
@@ -44,7 +44,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(6, "KCOL4")
 	),
 	MTK_PIN(
- 	 	3, "EINT3",
+		3, "EINT3",
 		MTK_EINT_FUNCTION(0, 3),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO3"),
@@ -56,7 +56,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(6, "KCOL5")
 	),
 	MTK_PIN(
- 	 	4, "EINT4",
+		4, "EINT4",
 		MTK_EINT_FUNCTION(0, 4),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO4"),
@@ -68,7 +68,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(6, "CONN_MCU_AICE_JCKC")
 	),
 	MTK_PIN(
- 	 	5, "EINT5",
+		5, "EINT5",
 		MTK_EINT_FUNCTION(0, 5),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO5"),
@@ -80,7 +80,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(6, "KCOL6")
 	),
 	MTK_PIN(
- 	 	6, "EINT6",
+		6, "EINT6",
 		MTK_EINT_FUNCTION(0, 6),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO6"),
@@ -92,7 +92,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(6, "KCOL7")
 	),
 	MTK_PIN(
- 	 	7, "EINT7",
+		7, "EINT7",
 		MTK_EINT_FUNCTION(0, 7),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO7"),
@@ -104,7 +104,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(6, "CONN_MCU_AICE_JMSC")
 	),
 	MTK_PIN(
- 	 	8, "EINT8",
+		8, "EINT8",
 		MTK_EINT_FUNCTION(0, 8),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO8"),
@@ -115,7 +115,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(6, "MD_EINT1")
 	),
 	MTK_PIN(
- 	 	9, "EINT9",
+		9, "EINT9",
 		MTK_EINT_FUNCTION(0, 9),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO9"),
@@ -125,7 +125,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(5, "MD_EINT2")
 	),
 	MTK_PIN(
- 	 	10, "EINT10",
+		10, "EINT10",
 		MTK_EINT_FUNCTION(0, 10),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO10"),
@@ -135,7 +135,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(5, "MD_EINT3")
 	),
 	MTK_PIN(
- 	 	11, "EINT11",
+		11, "EINT11",
 		MTK_EINT_FUNCTION(0, 11),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO11"),
@@ -144,7 +144,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(4, "NLD12")
 	),
 	MTK_PIN(
- 	 	12, "GPIO12",
+		12, "GPIO12",
 		MTK_EINT_FUNCTION(0, 12),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO12"),
@@ -154,7 +154,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_6")
 	),
 	MTK_PIN(
- 	 	13, "GPIO13",
+		13, "GPIO13",
 		MTK_EINT_FUNCTION(0, 13),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO13"),
@@ -163,7 +163,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_7")
 	),
 	MTK_PIN(
- 	 	14, "EINT14",
+		14, "EINT14",
 		MTK_EINT_FUNCTION(0, 14),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO14"),
@@ -174,7 +174,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_8")
 	),
 	MTK_PIN(
- 	 	15, "EINT15",
+		15, "EINT15",
 		MTK_EINT_FUNCTION(0, 15),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO15"),
@@ -185,7 +185,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_9")
 	),
 	MTK_PIN(
- 	 	16, "EINT16",
+		16, "EINT16",
 		MTK_EINT_FUNCTION(0, 16),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO16"),
@@ -196,7 +196,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_10")
 	),
 	MTK_PIN(
- 	 	17, "EINT17",
+		17, "EINT17",
 		MTK_EINT_FUNCTION(0, 17),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO17"),
@@ -207,7 +207,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_11")
 	),
 	MTK_PIN(
- 	 	18, "EINT18",
+		18, "EINT18",
 		MTK_EINT_FUNCTION(0, 18),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO18"),
@@ -218,7 +218,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_12")
 	),
 	MTK_PIN(
- 	 	19, "EINT19",
+		19, "EINT19",
 		MTK_EINT_FUNCTION(0, 19),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO19"),
@@ -229,7 +229,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_13")
 	),
 	MTK_PIN(
- 	 	20, "EINT20",
+		20, "EINT20",
 		MTK_EINT_FUNCTION(0, 20),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO20"),
@@ -240,7 +240,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_14")
 	),
 	MTK_PIN(
- 	 	21, "PWRAP_SPI0_MI",
+		21, "PWRAP_SPI0_MI",
 		MTK_EINT_FUNCTION(0, 21),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO21"),
@@ -248,7 +248,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "PWRAP_SPIDI")
 	),
 	MTK_PIN(
- 	 	22, "PWRAP_SPI0_MO",
+		22, "PWRAP_SPI0_MO",
 		MTK_EINT_FUNCTION(0, 22),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO22"),
@@ -256,27 +256,27 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "PWRAP_SPIDO")
 	),
 	MTK_PIN(
- 	 	23, "PWRAP_SPI0_CK",
+		23, "PWRAP_SPI0_CK",
 		MTK_EINT_FUNCTION(0, 23),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO23"),
 		MTK_FUNCTION(1, "PWRAP_SPICK_I")
 	),
 	MTK_PIN(
- 	 	24, "PWRAP_SPI0_CSN",
+		24, "PWRAP_SPI0_CSN",
 		MTK_EINT_FUNCTION(0, 24),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO24"),
 		MTK_FUNCTION(1, "PWRAP_SPICS_B_I")
 	),
 	MTK_PIN(
- 	 	25, "PWRAP_INT",
+		25, "PWRAP_INT",
 		MTK_EINT_FUNCTION(0, 25),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO25")
 	),
 	MTK_PIN(
- 	 	26, "AUD_CLK_MOSI",
+		26, "AUD_CLK_MOSI",
 		MTK_EINT_FUNCTION(0, 26),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO26"),
@@ -284,7 +284,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "ADC_CK")
 	),
 	MTK_PIN(
- 	 	27, "AUD_DAT_MISO",
+		27, "AUD_DAT_MISO",
 		MTK_EINT_FUNCTION(0, 27),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO27"),
@@ -293,7 +293,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(3, "AUD_MOSI")
 	),
 	MTK_PIN(
- 	 	28, "AUD_DAT_MOSI",
+		28, "AUD_DAT_MOSI",
 		MTK_EINT_FUNCTION(0, 28),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO28"),
@@ -302,7 +302,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(3, "AUD_MISO")
 	),
 	MTK_PIN(
- 	 	29, "SIM1_SCLK",
+		29, "SIM1_SCLK",
 		MTK_EINT_FUNCTION(0, 29),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO29"),
@@ -310,7 +310,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "MD1_SIM2_SCLK")
 	),
 	MTK_PIN(
- 	 	30, "SIM1_SRST",
+		30, "SIM1_SRST",
 		MTK_EINT_FUNCTION(0, 30),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO30"),
@@ -319,7 +319,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(3, "PWM3")
 	),
 	MTK_PIN(
- 	 	31, "SIM1_SIO",
+		31, "SIM1_SIO",
 		MTK_EINT_FUNCTION(0, 31),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO31"),
@@ -327,7 +327,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "MD1_SIM2_SDAT")
 	),
 	MTK_PIN(
- 	 	32, "SIM2_SCLK",
+		32, "SIM2_SCLK",
 		MTK_EINT_FUNCTION(0, 32),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO32"),
@@ -335,7 +335,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "MD1_SIM1_SCLK")
 	),
 	MTK_PIN(
- 	 	33, "SIM2_SRST",
+		33, "SIM2_SRST",
 		MTK_EINT_FUNCTION(0, 33),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO33"),
@@ -344,7 +344,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(3, "PWM4")
 	),
 	MTK_PIN(
- 	 	34, "SIM2_SIO",
+		34, "SIM2_SIO",
 		MTK_EINT_FUNCTION(0, 34),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO34"),
@@ -353,35 +353,35 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_0")
 	),
 	MTK_PIN(
- 	 	35, "RTC32K_CK",
+		35, "RTC32K_CK",
 		MTK_EINT_FUNCTION(0, 35),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO35"),
 		MTK_FUNCTION(1, "RTC32K_CK")
 	),
 	MTK_PIN(
- 	 	36, "WATCHDOG",
+		36, "WATCHDOG",
 		MTK_EINT_FUNCTION(0, 36),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO36"),
 		MTK_FUNCTION(1, "WATCHDOG")
 	),
 	MTK_PIN(
- 	 	37, "SRCLKENA",
+		37, "SRCLKENA",
 		MTK_EINT_FUNCTION(0, 37),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO37"),
 		MTK_FUNCTION(1, "SRCLKENA")
 	),
 	MTK_PIN(
- 	 	38, "SRCLKENAI",
+		38, "SRCLKENAI",
 		MTK_EINT_FUNCTION(0, 38),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO38"),
 		MTK_FUNCTION(1, "SRCLKENAI")
 	),
 	MTK_PIN(
- 	 	39, "URXD2",
+		39, "URXD2",
 		MTK_EINT_FUNCTION(0, 39),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO39"),
@@ -392,7 +392,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(6, "KROW4")
 	),
 	MTK_PIN(
- 	 	40, "UTXD2",
+		40, "UTXD2",
 		MTK_EINT_FUNCTION(0, 40),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO40"),
@@ -404,7 +404,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(6, "KROW5")
 	),
 	MTK_PIN(
- 	 	41, "URXD3",
+		41, "URXD3",
 		MTK_EINT_FUNCTION(0, 41),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO41"),
@@ -416,7 +416,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(6, "KROW6")
 	),
 	MTK_PIN(
- 	 	42, "UTXD3",
+		42, "UTXD3",
 		MTK_EINT_FUNCTION(0, 42),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO42"),
@@ -428,7 +428,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(6, "KROW7")
 	),
 	MTK_PIN(
- 	 	43, "PCM_CLK",
+		43, "PCM_CLK",
 		MTK_EINT_FUNCTION(0, 43),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "PCM_CLK0"),
@@ -438,7 +438,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(4, "DSPJTCK")
 	),
 	MTK_PIN(
- 	 	44, "PCM_SYNC",
+		44, "PCM_SYNC",
 		MTK_EINT_FUNCTION(0, 44),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO44"),
@@ -450,7 +450,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_3")
 	),
 	MTK_PIN(
- 	 	45, "PCM_RX",
+		45, "PCM_RX",
 		MTK_EINT_FUNCTION(0, 45),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO45"),
@@ -462,7 +462,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_4")
 	),
 	MTK_PIN(
- 	 	46, "PCM_TX",
+		46, "PCM_TX",
 		MTK_EINT_FUNCTION(0, 46),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO46"),
@@ -475,7 +475,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_5")
 	),
 	MTK_PIN(
- 	 	47, "ANT_SEL0",
+		47, "ANT_SEL0",
 		MTK_EINT_FUNCTION(0, 47),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO47"),
@@ -485,7 +485,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A_0")
 	),
 	MTK_PIN(
- 	 	48, "ANT_SEL1",
+		48, "ANT_SEL1",
 		MTK_EINT_FUNCTION(0, 48),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO48"),
@@ -495,7 +495,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A_1")
 	),
 	MTK_PIN(
- 	 	49, "ANT_SEL2",
+		49, "ANT_SEL2",
 		MTK_EINT_FUNCTION(0, 49),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO49"),
@@ -505,7 +505,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A_2")
 	),
 	MTK_PIN(
- 	 	50, "BPI_BUS0",
+		50, "BPI_BUS0",
 		MTK_EINT_FUNCTION(0, 50),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO50"),
@@ -513,14 +513,14 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A_3")
 	),
 	MTK_PIN(
- 	 	51, "BPI_BUS1",
+		51, "BPI_BUS1",
 		MTK_EINT_FUNCTION(0, 51),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO51"),
 		MTK_FUNCTION(7, "DBG_MON_A_4")
 	),
 	MTK_PIN(
- 	 	52, "BPI_BUS2",
+		52, "BPI_BUS2",
 		MTK_EINT_FUNCTION(0, 52),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO52"),
@@ -528,7 +528,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A_5")
 	),
 	MTK_PIN(
- 	 	53, "BPI_BUS3",
+		53, "BPI_BUS3",
 		MTK_EINT_FUNCTION(0, 53),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO53"),
@@ -536,7 +536,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A_6")
 	),
 	MTK_PIN(
- 	 	54, "BPI_BUS4",
+		54, "BPI_BUS4",
 		MTK_EINT_FUNCTION(0, 54),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO54"),
@@ -544,7 +544,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A_7")
 	),
 	MTK_PIN(
- 	 	55, "BPI_BUS5",
+		55, "BPI_BUS5",
 		MTK_EINT_FUNCTION(0, 55),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO55"),
@@ -552,7 +552,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A_8")
 	),
 	MTK_PIN(
- 	 	56, "BPI_BUS6",
+		56, "BPI_BUS6",
 		MTK_EINT_FUNCTION(0, 56),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO56"),
@@ -560,7 +560,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A_9")
 	),
 	MTK_PIN(
- 	 	57, "BPI_BUS14",
+		57, "BPI_BUS14",
 		MTK_EINT_FUNCTION(0, 57),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO57"),
@@ -569,7 +569,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A_10")
 	),
 	MTK_PIN(
- 	 	58, "BPI_BUS15",
+		58, "BPI_BUS15",
 		MTK_EINT_FUNCTION(0, 58),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO58"),
@@ -577,7 +577,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A_11")
 	),
 	MTK_PIN(
- 	 	59, "BPI_BUS7",
+		59, "BPI_BUS7",
 		MTK_EINT_FUNCTION(0, 59),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO59"),
@@ -585,7 +585,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A_12")
 	),
 	MTK_PIN(
- 	 	60, "BPI_BUS8",
+		60, "BPI_BUS8",
 		MTK_EINT_FUNCTION(0, 60),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO60"),
@@ -593,7 +593,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A_13")
 	),
 	MTK_PIN(
- 	 	61, "BPI_BUS9",
+		61, "BPI_BUS9",
 		MTK_EINT_FUNCTION(0, 61),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO61"),
@@ -601,7 +601,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A_14")
 	),
 	MTK_PIN(
- 	 	62, "BPI_BUS10",
+		62, "BPI_BUS10",
 		MTK_EINT_FUNCTION(0, 63),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO62"),
@@ -609,7 +609,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A_15")
 	),
 	MTK_PIN(
- 	 	63, "BPI_BUS11",
+		63, "BPI_BUS11",
 		MTK_EINT_FUNCTION(0, 63),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO63"),
@@ -617,7 +617,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A_16")
 	),
 	MTK_PIN(
- 	 	64, "BPI_BUS12",
+		64, "BPI_BUS12",
 		MTK_EINT_FUNCTION(0, 64),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO64"),
@@ -626,7 +626,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A_17")
 	),
 	MTK_PIN(
- 	 	65, "BPI_BUS13",
+		65, "BPI_BUS13",
 		MTK_EINT_FUNCTION(0, 65),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO65"),
@@ -635,7 +635,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A_18")
 	),
 	MTK_PIN(
- 	 	66, "BSI_EN",
+		66, "BSI_EN",
 		MTK_EINT_FUNCTION(0, 66),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO66"),
@@ -643,7 +643,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A_19")
 	),
 	MTK_PIN(
- 	 	67, "BSI_CLK",
+		67, "BSI_CLK",
 		MTK_EINT_FUNCTION(0, 67),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO67"),
@@ -651,7 +651,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A_20")
 	),
 	MTK_PIN(
- 	 	68, "BSI_DATA0",
+		68, "BSI_DATA0",
 		MTK_EINT_FUNCTION(0, 68),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO68"),
@@ -659,7 +659,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A_21")
 	),
 	MTK_PIN(
- 	 	69, "BSI_DATA1",
+		69, "BSI_DATA1",
 		MTK_EINT_FUNCTION(0, 69),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO69"),
@@ -667,7 +667,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A_22")
 	),
 	MTK_PIN(
- 	 	70, "BSI_DATA2",
+		70, "BSI_DATA2",
 		MTK_EINT_FUNCTION(0, 70),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO70"),
@@ -675,7 +675,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A_23")
 	),
 	MTK_PIN(
- 	 	71, "TXBPI",
+		71, "TXBPI",
 		MTK_EINT_FUNCTION(0, 71),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO71"),
@@ -683,7 +683,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A_24")
 	),
 	MTK_PIN(
- 	 	72, "VM0",
+		72, "VM0",
 		MTK_EINT_FUNCTION(0, 72),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO72"),
@@ -692,7 +692,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A_25")
 	),
 	MTK_PIN(
- 	 	73, "VM1",
+		73, "VM1",
 		MTK_EINT_FUNCTION(0, 73),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO73"),
@@ -701,21 +701,21 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A_26")
 	),
 	MTK_PIN(
- 	 	74, "KPROW0",
+		74, "KPROW0",
 		MTK_EINT_FUNCTION(0, 74),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO74"),
 		MTK_FUNCTION(1, "KPROW0")
 	),
 	MTK_PIN(
- 	 	75, "KPCOL0",
+		75, "KPCOL0",
 		MTK_EINT_FUNCTION(0, 75),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO75"),
 		MTK_FUNCTION(1, "KCOL0")
 	),
 	MTK_PIN(
- 	 	76, "JTMS",
+		76, "JTMS",
 		MTK_EINT_FUNCTION(0, 76),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO76"),
@@ -723,7 +723,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "CONN_MCU_TMS")
 	),
 	MTK_PIN(
- 	 	77, "JTCK",
+		77, "JTCK",
 		MTK_EINT_FUNCTION(0, 77),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO77"),
@@ -731,7 +731,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "CONN_MCU_TCK1")
 	),
 	MTK_PIN(
- 	 	78, "JTDI",
+		78, "JTDI",
 		MTK_EINT_FUNCTION(0, 78),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO78"),
@@ -739,7 +739,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "CONN_MCU_TDI")
 	),
 	MTK_PIN(
- 	 	79, "JTDO",
+		79, "JTDO",
 		MTK_EINT_FUNCTION(0, 79),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO79"),
@@ -747,7 +747,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "CONN_MCU_TDO")
 	),
 	MTK_PIN(
- 	 	80, "SPI_CS",
+		80, "SPI_CS",
 		MTK_EINT_FUNCTION(0, 80),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO80"),
@@ -756,7 +756,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_15")
 	),
 	MTK_PIN(
- 	 	81, "SPI_CK",
+		81, "SPI_CK",
 		MTK_EINT_FUNCTION(0, 81),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO81"),
@@ -765,7 +765,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_16")
 	),
 	MTK_PIN(
- 	 	82, "SPI_MI",
+		82, "SPI_MI",
 		MTK_EINT_FUNCTION(0, 82),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO82"),
@@ -775,7 +775,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_17")
 	),
 	MTK_PIN(
- 	 	83, "SPI_MO",
+		83, "SPI_MO",
 		MTK_EINT_FUNCTION(0, 83),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO83"),
@@ -783,34 +783,34 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "SPI_MI")
 	),
 	MTK_PIN(
- 	 	84, "SDA0",
+		84, "SDA0",
 		MTK_EINT_FUNCTION(0, 84),
 		DRV_GRP2,
 		MTK_FUNCTION(1, "SDA0")
 	),
 	MTK_PIN(
- 	 	85, "SCL0",
+		85, "SCL0",
 		MTK_EINT_FUNCTION(0, 85),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO85"),
 		MTK_FUNCTION(1, "SCL0")
 	),
 	MTK_PIN(
- 	 	86, "SDA1",
+		86, "SDA1",
 		MTK_EINT_FUNCTION(0, 86),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO86"),
 		MTK_FUNCTION(1, "SDA1")
 	),
 	MTK_PIN(
- 	 	87, "SCL1",
+		87, "SCL1",
 		MTK_EINT_FUNCTION(0, 87),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO87"),
 		MTK_FUNCTION(1, "SCL1")
 	),
 	MTK_PIN(
- 	 	88, "SDA2",
+		88, "SDA2",
 		MTK_EINT_FUNCTION(0, 88),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO88"),
@@ -818,7 +818,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "PWM1")
 	),
 	MTK_PIN(
- 	 	89, "SCL2",
+		89, "SCL2",
 		MTK_EINT_FUNCTION(0, 89),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO89"),
@@ -826,7 +826,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "PWM2")
 	),
 	MTK_PIN(
- 	 	90, "DISP_PWM",
+		90, "DISP_PWM",
 		MTK_EINT_FUNCTION(0, 90),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO90"),
@@ -834,7 +834,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "PWM1")
 	),
 	MTK_PIN(
- 	 	91, "WB_RSTB",
+		91, "WB_RSTB",
 		MTK_EINT_FUNCTION(0, 91),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPI91"),
@@ -842,7 +842,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A[27]")
 	),
 	MTK_PIN(
- 	 	92, "KPROW1",
+		92, "KPROW1",
 		MTK_EINT_FUNCTION(0, 92),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPI92"),
@@ -851,7 +851,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A[28]")
 	),
 	MTK_PIN(
- 	 	93, "KPROW2",
+		93, "KPROW2",
 		MTK_EINT_FUNCTION(0, 93),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPI93"),
@@ -860,7 +860,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A[29]")
 	),
 	MTK_PIN(
- 	 	94, "F2W_DATA",
+		94, "F2W_DATA",
 		MTK_EINT_FUNCTION(0, 94),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPI94"),
@@ -868,7 +868,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A[30]")
 	),
 	MTK_PIN(
- 	 	95, "F2W_CLK",
+		95, "F2W_CLK",
 		MTK_EINT_FUNCTION(0, 95),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPI95"),
@@ -876,7 +876,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A[31]")
 	),
 	MTK_PIN(
- 	 	96, "WB_SCLK",
+		96, "WB_SCLK",
 		MTK_EINT_FUNCTION(0, 96),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPI96"),
@@ -884,21 +884,21 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_A[32]")
 	),
 	MTK_PIN(
- 	 	97, "WB_SDATA",
+		97, "WB_SDATA",
 		MTK_EINT_FUNCTION(0, 97),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPI97"),
 		MTK_FUNCTION(1, "WB_SDATA")
 	),
 	MTK_PIN(
- 	 	98, "WB_SEN",
+		98, "WB_SEN",
 		MTK_EINT_FUNCTION(0, 98),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPI98"),
 		MTK_FUNCTION(1, "WB_SEN")
 	),
 	MTK_PIN(
- 	 	99, "WB_CRTL0",
+		99, "WB_CRTL0",
 		MTK_EINT_FUNCTION(0, 99),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPI99"),
@@ -906,7 +906,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "dfd_ntrst_xi")
 	),
 	MTK_PIN(
- 	 	100, "WB_CRTL1",
+		100, "WB_CRTL1",
 		MTK_EINT_FUNCTION(0, 100),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPI100"),
@@ -914,7 +914,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(1, "dfd_tms_xi")
 	),
 	MTK_PIN(
- 	 	101, "WB_CRTL2",
+		101, "WB_CRTL2",
 		MTK_EINT_FUNCTION(0, 101),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO101"),
@@ -922,7 +922,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "dfd_tck_xi")
 	),
 	MTK_PIN(
- 	 	102, "WB_CRTL3",
+		102, "WB_CRTL3",
 		MTK_EINT_FUNCTION(0, 102),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO102"),
@@ -930,7 +930,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "dfd_tdi_xi")
 	),
 	MTK_PIN(
- 	 	103, "WB_CRTL4",
+		103, "WB_CRTL4",
 		MTK_EINT_FUNCTION(0, 103),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO103"),
@@ -938,14 +938,14 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "dfd_tdo")
 	),
 	MTK_PIN(
- 	 	104, "WB_CRTL5",
+		104, "WB_CRTL5",
 		MTK_EINT_FUNCTION(0, 104),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO104"),
 		MTK_FUNCTION(1, "WB_CRTL5")
 	),
 	MTK_PIN(
- 	 	105, "I2S_DATA_IN",
+		105, "I2S_DATA_IN",
 		MTK_EINT_FUNCTION(0, 105),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO105"),
@@ -957,7 +957,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_18")
 	),
 	MTK_PIN(
- 	 	106, "I2S_LRCK",
+		106, "I2S_LRCK",
 		MTK_EINT_FUNCTION(0, 106),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO106"),
@@ -969,7 +969,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_19")
 	),
 	MTK_PIN(
- 	 	107, "I2S_BCK",
+		107, "I2S_BCK",
 		MTK_EINT_FUNCTION(0, 107),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO107"),
@@ -981,7 +981,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_20")
 	),
 	MTK_PIN(
- 	 	108, "URXD0",
+		108, "URXD0",
 		MTK_EINT_FUNCTION(0, 108),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO108"),
@@ -991,7 +991,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_21")
 	),
 	MTK_PIN(
- 	 	109, "UTXD0",
+		109, "UTXD0",
 		MTK_EINT_FUNCTION(0, 109),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO109"),
@@ -1002,7 +1002,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_22")
 	),
 	MTK_PIN(
- 	 	110, "URXD1",
+		110, "URXD1",
 		MTK_EINT_FUNCTION(0, 110),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO110"),
@@ -1012,7 +1012,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_23")
 	),
 	MTK_PIN(
- 	 	111, "UTXD1",
+		111, "UTXD1",
 		MTK_EINT_FUNCTION(0, 111),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO111"),
@@ -1023,7 +1023,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_24")
 	),
 	MTK_PIN(
- 	 	112, "LCM_RST",
+		112, "LCM_RST",
 		MTK_EINT_FUNCTION(0, 112),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO112"),
@@ -1031,7 +1031,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_25")
 	),
 	MTK_PIN(
- 	 	113, "DSI_TE",
+		113, "DSI_TE",
 		MTK_EINT_FUNCTION(0, 113),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO113"),
@@ -1039,7 +1039,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_26")
 	),
 	MTK_PIN(
- 	 	114, "MSDC2_CMD",
+		114, "MSDC2_CMD",
 		MTK_EINT_FUNCTION(0, 114),
 		DRV_GRP4,
 		MTK_FUNCTION(0, "GPIO114"),
@@ -1047,7 +1047,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_27")
 	),
 	MTK_PIN(
- 	 	115, "MSDC2_CLK",
+		115, "MSDC2_CLK",
 		MTK_EINT_FUNCTION(0, 115),
 		DRV_GRP4,
 		MTK_FUNCTION(0, "GPIO115"),
@@ -1057,7 +1057,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_28")
 	),
 	MTK_PIN(
- 	 	116, "MSDC2_DAT0",
+		116, "MSDC2_DAT0",
 		MTK_EINT_FUNCTION(0, 116),
 		DRV_GRP4,
 		MTK_FUNCTION(0, "GPIO116"),
@@ -1067,7 +1067,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_29")
 	),
 	MTK_PIN(
- 	 	117, "MSDC2_DAT1",
+		117, "MSDC2_DAT1",
 		MTK_EINT_FUNCTION(0, 117),
 		DRV_GRP4,
 		MTK_FUNCTION(0, "GPIO117"),
@@ -1079,7 +1079,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_30")
 	),
 	MTK_PIN(
- 	 	118, "MSDC2_DAT2",
+		118, "MSDC2_DAT2",
 		MTK_EINT_FUNCTION(0, 118),
 		DRV_GRP4,
 		MTK_FUNCTION(0, "GPIO117"),
@@ -1091,7 +1091,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_31")
 	),
 	MTK_PIN(
- 	 	119, "MSDC2_DAT3",
+		119, "MSDC2_DAT3",
 		MTK_EINT_FUNCTION(0, 119),
 		DRV_GRP4,
 		MTK_FUNCTION(0, "GPIO118"),
@@ -1103,7 +1103,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_32")
 	),
 	MTK_PIN(
- 	 	120, "CMDAT0",
+		120, "CMDAT0",
 		MTK_EINT_FUNCTION(0, 120),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO119"),
@@ -1111,7 +1111,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "CMCSD0")
 	),
 	MTK_PIN(
- 	 	121, "CMDAT1",
+		121, "CMDAT1",
 		MTK_EINT_FUNCTION(0, 121),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO121"),
@@ -1119,14 +1119,14 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "CMCSD1")
 	),
 	MTK_PIN(
- 	 	122, "CMMCLK",
+		122, "CMMCLK",
 		MTK_EINT_FUNCTION(0, 122),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO122"),
 		MTK_FUNCTION(1, "CMMCLK")
 	),
 	MTK_PIN(
- 	 	123, "CMPCLK",
+		123, "CMPCLK",
 		MTK_EINT_FUNCTION(0, 123),
 		DRV_GRP2,
 		MTK_FUNCTION(0, "GPIO123"),
@@ -1134,49 +1134,49 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "CMCSK")
 	),
 	MTK_PIN(
- 	 	124, "MSDC1_CMD",
+		124, "MSDC1_CMD",
 		MTK_EINT_FUNCTION(0, 124),
 		DRV_GRP5,
 		MTK_FUNCTION(0, "GPIO124"),
 		MTK_FUNCTION(1, "MSDC1_CMD")
 	),
 	MTK_PIN(
- 	 	125, "MSDC1_CLK",
+		125, "MSDC1_CLK",
 		MTK_EINT_FUNCTION(0, 125),
 		DRV_GRP5,
 		MTK_FUNCTION(0, "GPIO125"),
 		MTK_FUNCTION(1, "MSDC1_CLK")
 	),
 	MTK_PIN(
- 	 	126, "MSDC1_DAT0",
+		126, "MSDC1_DAT0",
 		MTK_EINT_FUNCTION(0, 126),
 		DRV_GRP5,
 		MTK_FUNCTION(0, "GPIO126"),
 		MTK_FUNCTION(1, "MSDC1_DAT0")
 	),
 	MTK_PIN(
- 	 	127, "MSDC1_DAT1",
+		127, "MSDC1_DAT1",
 		MTK_EINT_FUNCTION(0, 127),
 		DRV_GRP5,
 		MTK_FUNCTION(0, "GPIO127"),
 		MTK_FUNCTION(1, "MSDC1_DAT1")
 	),
 	MTK_PIN(
- 	 	128, "MSDC1_DAT2",
+		128, "MSDC1_DAT2",
 		MTK_EINT_FUNCTION(0, 128),
 		DRV_GRP5,
 		MTK_FUNCTION(0, "GPIO128"),
 		MTK_FUNCTION(1, "MSDC1_DAT2")
 	),
 	MTK_PIN(
- 	 	129, "MSDC1_DAT3",
+		129, "MSDC1_DAT3",
 		MTK_EINT_FUNCTION(0, 129),
 		DRV_GRP5,
 		MTK_FUNCTION(0, "GPIO129"),
 		MTK_FUNCTION(1, "MSDC1_DAT3")
 	),
 	MTK_PIN(
- 	 	130, "MSDC0_DAT7",
+		130, "MSDC0_DAT7",
 		MTK_EINT_FUNCTION(0, 130),
 		DRV_GRP4,
 		MTK_FUNCTION(0, "GPIO130"),
@@ -1184,7 +1184,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(4, "NALE")
 	),
 	MTK_PIN(
- 	 	131, "MSDC0_DAT6",
+		131, "MSDC0_DAT6",
 		MTK_EINT_FUNCTION(0, 131),
 		DRV_GRP4,
 		MTK_FUNCTION(0, "GPIO131"),
@@ -1192,7 +1192,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(4, "NCLE")
 	),
 	MTK_PIN(
- 	 	132, "MSDC0_DAT5",
+		132, "MSDC0_DAT5",
 		MTK_EINT_FUNCTION(0, 132),
 		DRV_GRP4,
 		MTK_FUNCTION(0, "GPIO132"),
@@ -1200,7 +1200,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(4, "NLD4")
 	),
 	MTK_PIN(
- 	 	133, "MSDC0_DAT4",
+		133, "MSDC0_DAT4",
 		MTK_EINT_FUNCTION(0, 133),
 		DRV_GRP4,
 		MTK_FUNCTION(0, "GPIO133"),
@@ -1208,7 +1208,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(4, "NLD5")
 	),
 	MTK_PIN(
- 	 	134, "MSDC0_RSTB",
+		134, "MSDC0_RSTB",
 		MTK_EINT_FUNCTION(0, 134),
 		DRV_GRP0,
 		MTK_FUNCTION(0, "GPIO134"),
@@ -1216,7 +1216,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(4, "NLD10")
 	),
 	MTK_PIN(
- 	 	135, "MSDC0_CMD",
+		135, "MSDC0_CMD",
 		MTK_EINT_FUNCTION(0, 135),
 		DRV_GRP4,
 		MTK_FUNCTION(0, "GPIO135"),
@@ -1224,7 +1224,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(4, "NRNB")
 	),
 	MTK_PIN(
- 	 	136, "MSDC0_CLK",
+		136, "MSDC0_CLK",
 		MTK_EINT_FUNCTION(0, 136),
 		DRV_GRP4,
 		MTK_FUNCTION(0, "GPIO136"),
@@ -1232,7 +1232,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(4, "NREB")
 	),
 	MTK_PIN(
- 	 	137, "MSDC0_DAT3",
+		137, "MSDC0_DAT3",
 		MTK_EINT_FUNCTION(0, 137),
 		DRV_GRP4,
 		MTK_FUNCTION(0, "GPIO137"),
@@ -1241,7 +1241,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_1")
 	),
 	MTK_PIN(
- 	 	138, "MSDC0_DAT2",
+		138, "MSDC0_DAT2",
 		MTK_EINT_FUNCTION(0, 138),
 		DRV_GRP4,
 		MTK_FUNCTION(0, "GPIO138"),
@@ -1249,7 +1249,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(4, "NLD14")
 	),
 	MTK_PIN(
- 	 	139, "MSDC0_DAT1",
+		139, "MSDC0_DAT1",
 		MTK_EINT_FUNCTION(0, 139),
 		DRV_GRP4,
 		MTK_FUNCTION(0, "GPIO139"),
@@ -1258,7 +1258,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(7, "DBG_MON_B_2")
 	),
 	MTK_PIN(
- 	 	140, "MSDC0_DAT0",
+		140, "MSDC0_DAT0",
 		MTK_EINT_FUNCTION(0, 140),
 		DRV_GRP4,
 		MTK_FUNCTION(0, "GPIO140"),
@@ -1266,7 +1266,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(4, "WATCHDOG")
 	),
 	MTK_PIN(
- 	 	141, "RDP0_A",
+		141, "RDP0_A",
 		MTK_EINT_FUNCTION(0, 141),
 		DRV_FIXED,
 		MTK_FUNCTION(0, "GPIO141"),
@@ -1274,7 +1274,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "CMVSYNC")
 	),
 	MTK_PIN(
- 	 	142, "RDN0_A",
+		142, "RDN0_A",
 		MTK_EINT_FUNCTION(0, 142),
 		DRV_FIXED,
 		MTK_FUNCTION(0, "GPIO142"),
@@ -1282,7 +1282,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "CMHSYNC")
 	),
 	MTK_PIN(
- 	 	143, "RDP1_A",
+		143, "RDP1_A",
 		MTK_EINT_FUNCTION(0, 143),
 		DRV_FIXED,
 		MTK_FUNCTION(0, "GPIO143"),
@@ -1291,7 +1291,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(3, "CMCSD3")
 	),
 	MTK_PIN(
- 	 	144, "RDN1_A",
+		144, "RDN1_A",
 		MTK_EINT_FUNCTION(0, 144),
 		DRV_FIXED,
 		MTK_FUNCTION(0, "GPIO144"),
@@ -1300,7 +1300,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(3, "CMCSD2")
 	),
 	MTK_PIN(
- 	 	145, "RCP_A",
+		145, "RCP_A",
 		MTK_EINT_FUNCTION(0, 145),
 		DRV_FIXED,
 		MTK_FUNCTION(0, "GPIO145"),
@@ -1308,7 +1308,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "CMDAT7")
 	),
 	MTK_PIN(
- 	 	146, "RCN_A",
+		146, "RCN_A",
 		MTK_EINT_FUNCTION(0, 146),
 		DRV_FIXED,
 		MTK_FUNCTION(0, "GPIO146"),
@@ -1316,7 +1316,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "CMDAT6")
 	),
 	MTK_PIN(
- 	 	147, "RDP0",
+		147, "RDP0",
 		MTK_EINT_FUNCTION(0, 147),
 		DRV_FIXED,
 		MTK_FUNCTION(0, "GPIO147"),
@@ -1324,42 +1324,42 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 
 	),
 	MTK_PIN(
- 	 	148, "RDN0",
+		148, "RDN0",
 		MTK_EINT_FUNCTION(0, 148),
 		DRV_FIXED,
 		MTK_FUNCTION(0, "GPIO148"),
 		MTK_FUNCTION(1, "RDN0")
 	),
 	MTK_PIN(
- 	 	149, "RDP1",
+		149, "RDP1",
 		MTK_EINT_FUNCTION(0, 149),
 		DRV_FIXED,
 		MTK_FUNCTION(0, "GPIO149"),
 		MTK_FUNCTION(1, "RDP1")
 	),
 	MTK_PIN(
- 	 	150, "RDN1",
+		150, "RDN1",
 		MTK_EINT_FUNCTION(0, 150),
 		DRV_FIXED,
 		MTK_FUNCTION(0, "GPIO150"),
 		MTK_FUNCTION(1, "RDN1")
 	),
 	MTK_PIN(
- 	 	151, "RCP",
+		151, "RCP",
 		MTK_EINT_FUNCTION(0, 151),
 		DRV_FIXED,
 		MTK_FUNCTION(0, "GPIO151"),
 		MTK_FUNCTION(1, "RCP")
 	),
 	MTK_PIN(
- 	 	152, "RCN",
+		152, "RCN",
 		MTK_EINT_FUNCTION(0, 152),
 		DRV_FIXED,
 		MTK_FUNCTION(0, "GPIO152"),
 		MTK_FUNCTION(1, "RCN")
 	),
 	MTK_PIN(
- 	 	153, "RDP2",
+		153, "RDP2",
 		MTK_EINT_FUNCTION(0, 153),
 		DRV_FIXED,
 		MTK_FUNCTION(0, "GPIO153"),
@@ -1367,7 +1367,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "CMDAT9")
 	),
 	MTK_PIN(
- 	 	154, "RDN2",
+		154, "RDN2",
 		MTK_EINT_FUNCTION(0, 154),
 		DRV_FIXED,
 		MTK_FUNCTION(0, "GPIO154"),
@@ -1375,7 +1375,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "CMDAT8")
 	),
 	MTK_PIN(
- 	 	155, "RDP3",
+		155, "RDP3",
 		MTK_EINT_FUNCTION(0, 155),
 		DRV_FIXED,
 		MTK_FUNCTION(0, "GPIO155"),
@@ -1383,7 +1383,7 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "CMDAT5")
 	),
 	MTK_PIN(
- 	 	156, "RDN3",
+		156, "RDN3",
 		MTK_EINT_FUNCTION(0, 156),
 		DRV_FIXED,
 		MTK_FUNCTION(0, "GPIO156"),
@@ -1391,84 +1391,84 @@ static const struct mtk_pin_desc mtk_pins_mt6582[] = {
 		MTK_FUNCTION(2, "CMDAT4")
 	),
 	MTK_PIN(
- 	 	157, "TDP0",
+		157, "TDP0",
 		MTK_EINT_FUNCTION(0, 157),
 		DRV_FIXED,
 		MTK_FUNCTION(0, "GPIO157"),
 		MTK_FUNCTION(1, "TDP0")
 	),
 	MTK_PIN(
- 	 	158, "TDN0",
+		158, "TDN0",
 		MTK_EINT_FUNCTION(0, 158),
 		DRV_FIXED,
 		MTK_FUNCTION(0, "GPIO158"),
 		MTK_FUNCTION(1, "TDN0")
 	),
 	MTK_PIN(
- 	 	159, "TDP1",
+		159, "TDP1",
 		MTK_EINT_FUNCTION(0, 159),
 		DRV_FIXED,
 		MTK_FUNCTION(0, "GPIO159"),
 		MTK_FUNCTION(1, "TDP1")
 	),
 	MTK_PIN(
- 	 	160, "TDN1",
+		160, "TDN1",
 		MTK_EINT_FUNCTION(0, 160),
 		DRV_FIXED,
 		MTK_FUNCTION(0, "GPIO160"),
 		MTK_FUNCTION(1, "TDN1")
 	),
 	MTK_PIN(
- 	 	161, "TCP",
+		161, "TCP",
 		MTK_EINT_FUNCTION(0, 161),
 		DRV_FIXED,
 		MTK_FUNCTION(0, "GPIO161"),
 		MTK_FUNCTION(1, "TCP")
 	),
 	MTK_PIN(
- 	 	162, "TCN",
+		162, "TCN",
 		MTK_EINT_FUNCTION(0, 162),
 		DRV_FIXED,
 		MTK_FUNCTION(0, "GPIO162"),
 		MTK_FUNCTION(1, "TCN")
 	),
 	MTK_PIN(
- 	 	163, "TDP2",
+		163, "TDP2",
 		MTK_EINT_FUNCTION(0, 163),
 		DRV_FIXED,
 		MTK_FUNCTION(0, "GPIO163"),
 		MTK_FUNCTION(1, "TDP2")
 	),
 	MTK_PIN(
- 	 	164, "TDN2",
+		164, "TDN2",
 		MTK_EINT_FUNCTION(0, 164),
 		DRV_FIXED,
 		MTK_FUNCTION(0, "GPIO164"),
 		MTK_FUNCTION(1, "TDN2")
 	),
 	MTK_PIN(
- 	 	165, "TDP3",
+		165, "TDP3",
 		MTK_EINT_FUNCTION(0, 165),
 		DRV_FIXED,
 		MTK_FUNCTION(0, "GPIO165"),
 		MTK_FUNCTION(1, "TDP3")
 	),
 	MTK_PIN(
- 	 	166, "TDN3",
+		166, "TDN3",
 		MTK_EINT_FUNCTION(0, 166),
 		DRV_FIXED,
 		MTK_FUNCTION(0, "GPIO166"),
 		MTK_FUNCTION(1, "TDN3")
 	),
 	MTK_PIN(
- 	 	167, "KPCOL1",
+		167, "KPCOL1",
 		MTK_EINT_FUNCTION(0, 167),
 		DRV_GRP4,
 		MTK_FUNCTION(0, "GPIO167"),
 		MTK_FUNCTION(1, "KCOL1")
 	),
 	MTK_PIN(
- 	 	168, "KPCOL2",
+		168, "KPCOL2",
 		MTK_EINT_FUNCTION(0, 168),
 		DRV_GRP4,
 		MTK_FUNCTION(0, "GPIO168"),

@@ -43,7 +43,7 @@ static const struct mtk_mmsys_driver_data mt6582_mmsys_driver_data = {
 	.routes = mt6582_mmsys_routing_table,
 	.num_routes = ARRAY_SIZE(mt6582_mmsys_routing_table),
 	.sw0_rst_offset = MT6582_MMSYS_SW0_RST_B,
-	.num_resets = 32,
+	.num_resets = 22,
 };
 
 static const struct mtk_mmsys_driver_data mt6779_mmsys_driver_data = {

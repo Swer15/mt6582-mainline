@@ -57,9 +57,6 @@
 #define RDMA_FIFO_PSEUDO_SIZE(bytes)			(((bytes) / 16) << 16)
 #define RDMA_OUTPUT_VALID_FIFO_THRESHOLD(bytes)		((bytes) / 16)
 #define RDMA_FIFO_SIZE(rdma)			((rdma)->data->fifo_size)
-// #define DISP_RDMA_MEM_START_ADDR		0x0f00
-#define DISP_RDMA_MEM_START_ADDR		0x0028
-
 #define RDMA_MEM_GMC				0x40402020
 
 static const u32 mt8173_formats[] = {
@@ -78,6 +75,7 @@ static const u32 mt8173_formats[] = {
 
 struct mtk_disp_rdma_data {
 	unsigned int fifo_size;
+	unsigned int mem_start_addr;
 	const u32 *formats;
 	size_t num_formats;
 	unsigned int (*fmt_convert)(unsigned int fmt);
@@ -320,7 +318,7 @@ void mtk_rdma_layer_config(struct device *dev, unsigned int idx,
 				   RDMA_MATRIX_ENABLE);
 	}
 	mtk_ddp_write_relaxed(cmdq_pkt, addr, &rdma->cmdq_reg, rdma->regs,
-			      DISP_RDMA_MEM_START_ADDR);
+			      rdma->data->mem_start_addr);
 	mtk_ddp_write_relaxed(cmdq_pkt, pitch, &rdma->cmdq_reg, rdma->regs,
 			      DISP_RDMA_MEM_SRC_PITCH);
 	mtk_ddp_write(cmdq_pkt, RDMA_MEM_GMC, &rdma->cmdq_reg, rdma->regs,
@@ -416,6 +414,7 @@ static void mtk_disp_rdma_remove(struct platform_device *pdev)
 
 static const struct mtk_disp_rdma_data mt2701_rdma_driver_data = {
 	.fifo_size = SZ_4K,
+	.mem_start_addr = 0x0f00,
 	.formats = mt8173_formats,
 	.num_formats = ARRAY_SIZE(mt8173_formats),
 	.fmt_convert = rdma_fmt_convert,
@@ -423,6 +422,7 @@ static const struct mtk_disp_rdma_data mt2701_rdma_driver_data = {
 
 static const struct mtk_disp_rdma_data mt6582_rdma_driver_data = {
 	.fifo_size = SZ_4K,
+	.mem_start_addr = 0x0028,
 	.formats = mt8173_formats,
 	.num_formats = ARRAY_SIZE(mt8173_formats),
 	.fmt_convert = rdma_fmt_convert_mt65xx,
@@ -430,6 +430,7 @@ static const struct mtk_disp_rdma_data mt6582_rdma_driver_data = {
 
 static const struct mtk_disp_rdma_data mt8173_rdma_driver_data = {
 	.fifo_size = SZ_8K,
+	.mem_start_addr = 0x0f00,
 	.formats = mt8173_formats,
 	.num_formats = ARRAY_SIZE(mt8173_formats),
 	.fmt_convert = rdma_fmt_convert,
@@ -437,6 +438,7 @@ static const struct mtk_disp_rdma_data mt8173_rdma_driver_data = {
 
 static const struct mtk_disp_rdma_data mt8183_rdma_driver_data = {
 	.fifo_size = 5 * SZ_1K,
+	.mem_start_addr = 0x0f00,
 	.formats = mt8173_formats,
 	.num_formats = ARRAY_SIZE(mt8173_formats),
 	.fmt_convert = rdma_fmt_convert,
@@ -444,6 +446,7 @@ static const struct mtk_disp_rdma_data mt8183_rdma_driver_data = {
 
 static const struct mtk_disp_rdma_data mt8195_rdma_driver_data = {
 	.fifo_size = 1920,
+	.mem_start_addr = 0x0f00,
 	.formats = mt8173_formats,
 	.num_formats = ARRAY_SIZE(mt8173_formats),
 	.fmt_convert = rdma_fmt_convert,

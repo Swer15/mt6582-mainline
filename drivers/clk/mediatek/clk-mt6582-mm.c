@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
- * Copyright (c) 2026 
+ * Copyright (c) 2026
  * Author: Burst_Caster <swer15l23@gmail.com>
  */
 
@@ -63,10 +63,10 @@ static const struct mtk_clk_desc mm_desc = {
 };
 
 static const struct platform_device_id clk_mt6582_mm_id_table[] = {
-	{ 
-		.name = "clk-mt6582-mm", .driver_data = (kernel_ulong_t)&mm_desc 
-	}, { 
-		/* sentinel */ 
+	{
+		.name = "clk-mt6582-mm", .driver_data = (kernel_ulong_t)&mm_desc
+	}, {
+		/* sentinel */
 	}
 };
 MODULE_DEVICE_TABLE(platform, clk_mt6582_mm_id_table);
